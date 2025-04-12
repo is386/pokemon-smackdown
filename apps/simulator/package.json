@@ -4,6 +4,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "build": "tsc",
+    "lint": "eslint --max-warnings 0",
     "start": "tsx watch --clear-screen=false src/app.ts"
   }
 }
