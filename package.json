@@ -4,5 +4,16 @@
   "description": "Pokemon simulator",
   "repository": "git@github.com:is386/pokemon-smackdown.git",
   "author": "is386 <singh.indervir89@gmail.com>",
-  "private": true
+  "license": "UNLICENSED",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "start": "lerna run start"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "lerna": "^8.2.2"
+  }
 }

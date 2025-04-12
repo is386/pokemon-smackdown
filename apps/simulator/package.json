@@ -1,0 +1,8 @@
+{
+  "name": "simulator",
+  "version": "0.0.1",
+  "license": "UNLICENSED",
+  "scripts": {
+    "start": "echo 'krafting'"
+  }
+}
