@@ -11,7 +11,9 @@
   ],
   "scripts": {
     "build": "lerna run build",
-    "lint": "lerna run lint"
+    "clean": "lerna run clean",
+    "lint": "lerna run lint",
+    "prepare": "husky"
   },
   "devDependencies": {
     "@eslint/js": "^9.24.0",
@@ -22,10 +24,17 @@
     "eslint-config-prettier": "^10.1.2",
     "eslint-plugin-prettier": "^5.2.6",
     "globals": "^16.0.0",
+    "husky": "^9.1.7",
     "lerna": "^8.2.2",
     "prettier": "3.5.3",
     "tsx": "^4.19.3",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.29.1"
+  },
+  "lint-staged": {
+    "*.{js,json,ts}": [
+      "eslint --fix --no-warn-ignored",
+      "prettier --write"
+    ]
   }
 }
