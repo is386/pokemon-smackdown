@@ -1,0 +1,8 @@
+{
+  "name": "pokemon-smackdown",
+  "version": "1.0.0",
+  "description": "Pokemon simulator",
+  "repository": "git@github.com:is386/pokemon-smackdown.git",
+  "author": "is386 <singh.indervir89@gmail.com>",
+  "private": true
+}
