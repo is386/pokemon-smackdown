@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "license": "UNLICENSED",
   "scripts": {
-    "start": "echo 'krafting'"
+    "build": "tsc",
+    "start": "tsx watch --clear-screen=false src/app.ts"
   }
 }
