@@ -2,6 +2,7 @@ import { Move } from '../moves';
 import { Type } from '../type';
 import { StatName, Stats } from './stats';
 import { StatModifiers, StatModifierName } from './stat-modifiers';
+import { Nature, natureMap, NatureStats } from './nature';
 
 export class Pokemon {
   private _name: string;
@@ -12,6 +13,7 @@ export class Pokemon {
   private _baseStats: Stats;
   private _ivs: Stats;
   private _evs: Stats;
+  private _natureStats: NatureStats;
   private _statModifiers = new StatModifiers();
   private _moves: Move[];
 
@@ -23,6 +25,7 @@ export class Pokemon {
     baseStats: Stats,
     ivs: Stats,
     evs: Stats,
+    nature: Nature,
     moves: Move[]
   ) {
     this._name = name;
@@ -39,6 +42,14 @@ export class Pokemon {
 
     this._evs = evs;
     this._evs.max = 252;
+
+    this._natureStats = natureMap.get(nature) ?? {
+      attack: 1,
+      defense: 1,
+      specialAttack: 1,
+      specialDefense: 1,
+      speed: 1,
+    };
 
     this._moves = moves;
   }
@@ -81,9 +92,13 @@ export class Pokemon {
     const base = this._baseStats.getStat(stat);
     const iv = this._ivs.getStat(stat);
     const ev = this._evs.getStat(stat);
-    const finalStat = ((2 * base + iv + ev / 4) * this.level) / 100;
+    const finalStat = Math.floor(
+      ((2 * base + iv + Math.floor(ev / 4)) * this.level) / 100
+    );
     return Math.floor(
-      stat === 'hp' ? finalStat + this.level + 10 : finalStat + 5
+      stat === 'hp'
+        ? finalStat + this.level + 10
+        : (finalStat + 5) * this._natureStats[stat]
     );
   }
 

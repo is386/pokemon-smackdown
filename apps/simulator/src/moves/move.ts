@@ -5,11 +5,7 @@ import { Type } from '../type';
 import { randomIntFromInterval } from '../utils';
 import { clamp } from '../utils/math';
 
-export enum MoveCategory {
-  Physical,
-  Special,
-  Status,
-}
+export type MoveCategory = 'physical' | 'special' | 'status';
 
 export class Move {
   private _name: string;

@@ -11,7 +11,8 @@ function main(): void {
     new Stats(78, 84, 78, 109, 85, 100),
     new Stats(31, 31, 31, 31, 31, 31),
     new Stats(252, 252, 0, 0, 0, 4),
-    [getMove('Tackle')]
+    'brave',
+    [getMove('tackle')]
   );
 
   const p2 = new Pokemon(
@@ -22,7 +23,8 @@ function main(): void {
     new Stats(79, 83, 100, 85, 105, 78),
     new Stats(31, 31, 31, 31, 31, 31),
     new Stats(252, 0, 252, 0, 0, 4),
-    [getMove('Growl')]
+    'hardy',
+    [getMove('growl')]
   );
 
   p1.useMove(0, p2);

@@ -1,29 +1,9 @@
-import { Move, MoveCategory } from '../moves';
+import { Move } from '../moves';
 import { Pokemon } from '../pokemon';
 import { Effect } from './effect';
 import { randomIntFromInterval } from '../utils';
 import { StatModifierName } from '../pokemon/stat-modifiers';
-
-export const typeEffectiveness: number[][] = [
-  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.5, 0, 1, 1, 0.5, 1],
-  [1, 0.5, 0.5, 1, 2, 2, 1, 1, 1, 1, 1, 2, 0.5, 1, 0.5, 1, 2, 1],
-  [1, 2, 0.5, 1, 0.5, 1, 1, 1, 2, 1, 1, 1, 2, 1, 0.5, 1, 1, 1],
-  [1, 1, 2, 0.5, 0.5, 1, 1, 1, 0, 2, 1, 1, 1, 1, 0.5, 1, 1, 1],
-  [1, 0.5, 2, 1, 0.5, 1, 1, 0.5, 2, 0.5, 1, 0.5, 2, 1, 0.5, 1, 0.5, 1],
-  [1, 0.5, 0.5, 1, 2, 0.5, 1, 1, 2, 2, 1, 1, 1, 1, 2, 1, 0.5, 1],
-  [2, 1, 1, 1, 1, 2, 1, 0.5, 1, 0.5, 0.5, 0.5, 2, 0, 1, 2, 2, 0.5],
-  [1, 1, 1, 1, 2, 1, 1, 0.5, 0.5, 1, 1, 1, 0.5, 0.5, 1, 1, 0, 2],
-  [1, 2, 1, 2, 0.5, 1, 1, 2, 1, 0, 1, 0.5, 2, 1, 1, 1, 2, 1],
-  [1, 1, 1, 0.5, 2, 1, 2, 1, 1, 1, 1, 2, 0.5, 1, 1, 1, 0.5, 1],
-  [1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 0.5, 1, 1, 1, 1, 0, 0.5, 1],
-  [1, 0.5, 1, 1, 2, 1, 0.5, 0.5, 1, 0.5, 2, 1, 1, 0.5, 1, 2, 0.5, 0.5],
-  [1, 2, 1, 1, 1, 2, 0.5, 1, 0.5, 2, 1, 2, 1, 1, 1, 1, 0.5, 1],
-  [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 0.5, 1, 1],
-  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 0.5, 0],
-  [1, 1, 1, 1, 1, 1, 0.5, 1, 1, 1, 2, 1, 1, 2, 1, 0.5, 1, 0.5],
-  [1, 0.5, 0.5, 0.5, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 0.5, 2],
-  [1, 0.5, 1, 1, 1, 1, 2, 0.5, 1, 1, 1, 1, 1, 1, 2, 2, 0.5, 1],
-];
+import { typeEffectiveness } from '../type';
 
 function getCritMultiplier(stage: number): number {
   let chance: number;
@@ -51,16 +31,16 @@ export class DamageEffect extends Effect {
   }
 
   apply(move: Move, user: Pokemon, target: Pokemon): void {
-    if (move.category === MoveCategory.Status) {
+    if (move.category === 'status') {
       throw Error('Move category is not Physical or Special');
     }
 
     const level = user.level;
 
     const attackingStat: StatModifierName =
-      move.category === MoveCategory.Physical ? 'attack' : 'specialAttack';
+      move.category === 'physical' ? 'attack' : 'specialAttack';
     const defendingStat: StatModifierName =
-      move.category === MoveCategory.Physical ? 'defense' : 'specialDefense';
+      move.category === 'physical' ? 'defense' : 'specialDefense';
 
     let a = user.getStatWithModifier(attackingStat);
     let d = target.getStatWithModifier(defendingStat);
@@ -92,7 +72,8 @@ export class DamageEffect extends Effect {
       : 1;
 
     const damage =
-      ((((2 * level) / 5 + 2) * power * (a / d)) / 50 + 2) *
+      (Math.floor(((Math.floor((2 * level) / 5) + 2) * power * (a / d)) / 50) +
+        2) *
       critical *
       random *
       stab *
