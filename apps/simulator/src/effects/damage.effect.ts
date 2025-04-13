@@ -2,6 +2,7 @@ import { Move, MoveCategory } from '../moves';
 import { Pokemon } from '../pokemon';
 import { Effect } from './effect';
 import { randomIntFromInterval } from '../utils';
+import { StatName } from '../pokemon/stat-modifiers';
 
 export const typeEffectiveness: number[][] = [
   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.5, 0, 1, 1, 0.5, 1],
@@ -38,10 +39,9 @@ function getCritMultiplier(stage: number): number {
   }
 
   const roll = Math.random();
-  return roll < chance ? 1.5 : 1.0;
+  return roll < chance ? 2 : 1;
 }
 
-// https://bulbapedia.bulbagarden.net/wiki/Damage
 export class DamageEffect extends Effect {
   private _power: number;
 
@@ -54,20 +54,32 @@ export class DamageEffect extends Effect {
     if (move.category === MoveCategory.Status) {
       throw Error('Move category is not Physical or Special');
     }
+
     const level = user.level;
 
-    const a =
-      move.category === MoveCategory.Physical
-        ? user.getBaseStatWithModifier('attack')
-        : user.getBaseStatWithModifier('specialAttack');
+    const attackingStat: StatName =
+      move.category === MoveCategory.Physical ? 'attack' : 'specialAttack';
+    const defendingStat: StatName =
+      move.category === MoveCategory.Physical ? 'defense' : 'specialDefense';
 
-    const d =
-      move.category === MoveCategory.Physical
-        ? target.getBaseStatWithModifier('defense')
-        : target.getBaseStatWithModifier('specialDefense');
+    let a = user.getBaseStatWithModifier(attackingStat);
+    let d = target.getBaseStatWithModifier(defendingStat);
+
+    const critical = getCritMultiplier(user.getStatStage('critical'));
+    if (critical === 2) {
+      const attackingStage = user.getStatStage(attackingStat);
+      const defendingStage = target.getStatStage(defendingStat);
+
+      if (attackingStage < 0) {
+        a = user.getBaseStat(attackingStat);
+      }
+
+      if (defendingStage > 0) {
+        d = target.getBaseStat(defendingStat);
+      }
+    }
 
     const power = this._power;
-    const critical = getCritMultiplier(0);
     const random = randomIntFromInterval(85, 100) / 100;
     const stab =
       move.type === user.primaryType || move.type === user.secondaryType
@@ -85,7 +97,10 @@ export class DamageEffect extends Effect {
       random *
       stab *
       type;
-    console.log(damage);
-    target.takeDamage(Math.round(damage));
+
+    const damageMin = (damage / random) * (85 / 100);
+    const damageMax = damage / random;
+    console.log(Math.floor(damageMin), '-', Math.floor(damageMax));
+    target.takeDamage(Math.floor(damage));
   }
 }

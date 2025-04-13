@@ -47,11 +47,21 @@ export class Pokemon {
   }
 
   useMove(moveIndex: number, target: Pokemon): void {
+    console.log('===');
+    console.log(this.toString());
+    console.log(target.toString());
+    console.log(
+      `${this._name} used ${this._moves[moveIndex].name} on ${target.name}`
+    );
     this._moves[moveIndex].use(this, target);
   }
 
   takeDamage(damage: number) {
     this._currentHp = Math.max(this._currentHp - damage, 0);
+  }
+
+  getBaseStat(stat: BaseStatName): number {
+    return this._baseStats.getStat(stat);
   }
 
   getBaseStatWithModifier(stat: BaseStatName): number {
@@ -66,5 +76,9 @@ export class Pokemon {
 
   addStatStage(stat: StatName, stage: number): void {
     this._statModifiers.addStage(stat, stage);
+  }
+
+  toString(): string {
+    return `${this._name}: ${this.getBaseStatWithModifier('hp')} [atk:${this.getStatStage('attack')} def:${this.getStatStage('defense')} spa:${this.getStatStage('specialAttack')} spd:${this.getStatStage('specialDefense')} spe:${this.getStatStage('speed')} acc:${this.getStatStage('accuracy')} eva:${this.getStatStage('evasion')} crt:${this.getStatStage('critical')}]`;
   }
 }

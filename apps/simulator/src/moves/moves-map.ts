@@ -7,7 +7,7 @@ import { MoveCategory } from './move';
 const movesMap = new Map<string, Move>([
   [
     'Tackle',
-    new Move('Tackle', Type.Normal, MoveCategory.Physical, 35, 10, [
+    new Move('Tackle', Type.Normal, MoveCategory.Physical, 35, 100, [
       new DamageEffect(40),
     ]),
   ],

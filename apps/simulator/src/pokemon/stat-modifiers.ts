@@ -1,6 +1,7 @@
+import { clamp } from '../utils/math';
 import { BaseStatName } from './base-stats';
 
-export type StatName = BaseStatName | 'accuracy' | 'evasion';
+export type StatName = BaseStatName | 'accuracy' | 'evasion' | 'critical';
 
 function calculateBaseStatModifier(stage: number): number {
   if (stage >= 0) {
@@ -16,10 +17,6 @@ export function calculateAccuracyEvasionModifier(stage: number): number {
   return 3 / (3 - stage);
 }
 
-export function clampStage(stage: number): number {
-  return Math.max(-6, Math.min(6, stage));
-}
-
 export class StatModifiers {
   private _stages: Record<StatName, number> = {
     hp: 0,
@@ -30,10 +27,15 @@ export class StatModifiers {
     speed: 0,
     accuracy: 0,
     evasion: 0,
+    critical: 0,
   };
 
   addStage(stat: StatName, stage: number): void {
-    this._stages[stat] = clampStage(this._stages[stat] + stage);
+    if (stat === 'critical') {
+      this._stages[stat] = clamp(this._stages[stat] + stage, 0, 3);
+    } else {
+      this._stages[stat] = clamp(this._stages[stat] + stage, -6, 6);
+    }
   }
 
   getStage(stat: StatName): number {
