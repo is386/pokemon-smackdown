@@ -41,15 +41,15 @@ export class Move {
   }
 
   use(user: Pokemon, target: Pokemon): void {
-    console.log(`${user.name}: ${user.currentHp}`);
-    console.log(`${target.name}: ${target.currentHp}`);
+    console.log(`${user.name}: ${user.getBaseStatWithModifier('hp')}`);
+    console.log(`${target.name}: ${target.getBaseStatWithModifier('hp')}`);
 
     console.log(`${user.name} used ${this._name} on ${target.name}`);
     this._effects.forEach((effect) => {
       effect.apply(this, user, target);
     });
 
-    console.log(`${user.name}: ${user.currentHp}`);
-    console.log(`${target.name}: ${target.currentHp}`);
+    console.log(`${user.name}: ${user.getBaseStatWithModifier('hp')}`);
+    console.log(`${target.name}: ${target.getBaseStatWithModifier('hp')}`);
   }
 }

@@ -18,9 +18,10 @@ function main(): void {
     Type.Water,
     undefined,
     new BaseStats(79, 83, 100, 85, 105, 78),
-    []
+    [getMove('Growl')]
   );
 
+  p2.useMove(0, p1);
   p1.useMove(0, p2);
 }
 

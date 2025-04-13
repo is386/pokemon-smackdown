@@ -58,13 +58,13 @@ export class DamageEffect extends Effect {
 
     const a =
       move.category === MoveCategory.Physical
-        ? user.baseStats.attack
-        : user.baseStats.specialAttack;
+        ? user.getBaseStatWithModifier('attack')
+        : user.getBaseStatWithModifier('specialAttack');
 
     const d =
       move.category === MoveCategory.Physical
-        ? target.baseStats.defense
-        : target.baseStats.specialDefense;
+        ? target.getBaseStatWithModifier('defense')
+        : target.getBaseStatWithModifier('specialDefense');
 
     const power = this._power;
     const critical = getCritMultiplier(0);
@@ -85,7 +85,7 @@ export class DamageEffect extends Effect {
       random *
       stab *
       type;
-
+    console.log(damage);
     target.takeDamage(Math.round(damage));
   }
 }
