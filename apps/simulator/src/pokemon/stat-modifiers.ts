@@ -2,21 +2,21 @@ import { BaseStatName } from './base-stats';
 
 export type StatName = BaseStatName | 'accuracy' | 'evasion';
 
-function getBaseStatModifier(stage: number): number {
+function calculateBaseStatModifier(stage: number): number {
   if (stage >= 0) {
     return (2 + stage) / 2;
   }
   return 2 / (2 - stage);
 }
 
-function getAccuracyEvasionModifier(stage: number): number {
+export function calculateAccuracyEvasionModifier(stage: number): number {
   if (stage >= 0) {
     return (3 + stage) / 3;
   }
   return 3 / (3 - stage);
 }
 
-function clampStage(stage: number): number {
+export function clampStage(stage: number): number {
   return Math.max(-6, Math.min(6, stage));
 }
 
@@ -43,7 +43,7 @@ export class StatModifiers {
   getModifier(stat: StatName): number {
     const stage = this.getStage(stat);
     return stat === 'accuracy' || stat === 'evasion'
-      ? getAccuracyEvasionModifier(stage)
-      : getBaseStatModifier(stage);
+      ? calculateAccuracyEvasionModifier(stage)
+      : calculateBaseStatModifier(stage);
   }
 }

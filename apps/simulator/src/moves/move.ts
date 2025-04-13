@@ -1,6 +1,11 @@
 import { Effect } from '../effects';
 import { Pokemon } from '../pokemon';
+import {
+  calculateAccuracyEvasionModifier,
+  clampStage,
+} from '../pokemon/stat-modifiers';
 import { Type } from '../type';
+import { randomIntFromInterval } from '../utils';
 
 export enum MoveCategory {
   Physical,
@@ -41,15 +46,25 @@ export class Move {
   }
 
   use(user: Pokemon, target: Pokemon): void {
+    console.log('===');
     console.log(`${user.name}: ${user.getBaseStatWithModifier('hp')}`);
     console.log(`${target.name}: ${target.getBaseStatWithModifier('hp')}`);
-
     console.log(`${user.name} used ${this._name} on ${target.name}`);
+
+    const adjustedStages = clampStage(
+      user.getStatStage('accuracy') - target.getStatStage('evasion')
+    );
+    const accuracyModified =
+      this._accuracy * calculateAccuracyEvasionModifier(adjustedStages);
+    const r = randomIntFromInterval(1, 100);
+
+    if (r > accuracyModified) {
+      console.log(`${user.name} missed!`);
+      return;
+    }
+
     this._effects.forEach((effect) => {
       effect.apply(this, user, target);
     });
-
-    console.log(`${user.name}: ${user.getBaseStatWithModifier('hp')}`);
-    console.log(`${target.name}: ${target.getBaseStatWithModifier('hp')}`);
   }
 }

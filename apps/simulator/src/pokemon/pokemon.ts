@@ -60,8 +60,8 @@ export class Pokemon {
       : this._baseStats.getStat(stat) * this._statModifiers.getModifier(stat);
   }
 
-  getStatModifier(stat: StatName): number {
-    return this._statModifiers.getModifier(stat);
+  getStatStage(stat: StatName): number {
+    return this._statModifiers.getStage(stat);
   }
 
   addStatStage(stat: StatName, stage: number): void {
