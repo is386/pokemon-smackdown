@@ -20,5 +20,11 @@ const movesMap = new Map<string, Move>([
 ]);
 
 export function getMove(name: string): Move {
-  return movesMap.get(name);
+  const move = movesMap.get(name);
+  if (!move) {
+    throw Error(`move ${name} not found`);
+  }
+  return new Move(move.name, move.type, move.category, move.pp, move.accuracy, [
+    ...move.effects,
+  ]);
 }

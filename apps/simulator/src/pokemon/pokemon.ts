@@ -25,7 +25,7 @@ export class Pokemon {
     this._level = level;
     this._primaryType = primaryType;
     this._secondaryType = secondaryType;
-    this._currentHp = baseStats.getStat('hp');
+    this._currentHp = baseStats.getStat('hp'); // TODO: Use the HP formula
     this._baseStats = baseStats;
     this._moves = moves;
   }
@@ -47,9 +47,13 @@ export class Pokemon {
   }
 
   useMove(moveIndex: number, target: Pokemon): void {
-    console.log('===');
+    console.log(
+      '\n================================================================\n'
+    );
     console.log(this.toString());
+    console.log();
     console.log(target.toString());
+    console.log();
     console.log(
       `${this._name} used ${this._moves[moveIndex].name} on ${target.name}`
     );
@@ -79,6 +83,11 @@ export class Pokemon {
   }
 
   toString(): string {
-    return `${this._name}: ${this.getBaseStatWithModifier('hp')} [atk:${this.getStatStage('attack')} def:${this.getStatStage('defense')} spa:${this.getStatStage('specialAttack')} spd:${this.getStatStage('specialDefense')} spe:${this.getStatStage('speed')} acc:${this.getStatStage('accuracy')} eva:${this.getStatStage('evasion')} crt:${this.getStatStage('critical')}]`;
+    const stages = `[atk:${this.getStatStage('attack')} def:${this.getStatStage('defense')} spa:${this.getStatStage('specialAttack')} spd:${this.getStatStage('specialDefense')} spe:${this.getStatStage('speed')} acc:${this.getStatStage('accuracy')} eva:${this.getStatStage('evasion')} crt:${this.getStatStage('critical')}]`;
+    let s = `${this._name}: ${this.getBaseStatWithModifier('hp')} ${stages}`;
+    this._moves.forEach((move) => {
+      s += `\n - ${move.name} (${move.pp}/${move.maxPp})`;
+    });
+    return s;
   }
 }

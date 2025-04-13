@@ -16,6 +16,7 @@ export class Move {
   private _type: Type;
   private _category: MoveCategory;
   private _pp: number;
+  private _maxPp: number;
   private _accuracy: number;
   private _effects: Effect[];
 
@@ -31,6 +32,7 @@ export class Move {
     this._category = category;
     this._type = type;
     this._pp = pp;
+    this._maxPp = pp;
     this._accuracy = accuracy;
     this._effects = effects;
   }
@@ -47,7 +49,34 @@ export class Move {
     return this._category;
   }
 
+  set pp(num: number) {
+    this._pp = num;
+  }
+
+  get pp(): number {
+    return this._pp;
+  }
+
+  get maxPp(): number {
+    return this._maxPp;
+  }
+
+  get accuracy(): number {
+    return this._accuracy;
+  }
+
+  get effects(): Effect[] {
+    return this._effects;
+  }
+
   use(user: Pokemon, target: Pokemon): void {
+    if (this._pp === 0) {
+      console.log(`${user.name} cannot use that move!`);
+      return;
+    }
+
+    this._pp = Math.max(0, this._pp - 1);
+
     const adjustedStages = clamp(
       user.getStatStage('accuracy') - target.getStatStage('evasion'),
       -6,
