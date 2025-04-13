@@ -1,7 +1,7 @@
 import { clamp } from '../utils/math';
-import { BaseStatName } from './base-stats';
+import { StatName } from './stats';
 
-export type StatName = BaseStatName | 'accuracy' | 'evasion' | 'critical';
+export type StatModifierName = StatName | 'accuracy' | 'evasion' | 'critical';
 
 function calculateBaseStatModifier(stage: number): number {
   if (stage >= 0) {
@@ -18,7 +18,7 @@ export function calculateAccuracyEvasionModifier(stage: number): number {
 }
 
 export class StatModifiers {
-  private _stages: Record<StatName, number> = {
+  private _stages: Record<StatModifierName, number> = {
     hp: 0,
     attack: 0,
     defense: 0,
@@ -30,7 +30,7 @@ export class StatModifiers {
     critical: 0,
   };
 
-  addStage(stat: StatName, stage: number): void {
+  addStage(stat: StatModifierName, stage: number): void {
     if (stat === 'critical') {
       this._stages[stat] = clamp(this._stages[stat] + stage, 0, 3);
     } else {
@@ -38,11 +38,11 @@ export class StatModifiers {
     }
   }
 
-  getStage(stat: StatName): number {
+  getStage(stat: StatModifierName): number {
     return this._stages[stat];
   }
 
-  getModifier(stat: StatName): number {
+  getModifier(stat: StatModifierName): number {
     const stage = this.getStage(stat);
     return stat === 'accuracy' || stat === 'evasion'
       ? calculateAccuracyEvasionModifier(stage)

@@ -2,7 +2,7 @@ import { Move, MoveCategory } from '../moves';
 import { Pokemon } from '../pokemon';
 import { Effect } from './effect';
 import { randomIntFromInterval } from '../utils';
-import { StatName } from '../pokemon/stat-modifiers';
+import { StatModifierName } from '../pokemon/stat-modifiers';
 
 export const typeEffectiveness: number[][] = [
   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.5, 0, 1, 1, 0.5, 1],
@@ -57,13 +57,13 @@ export class DamageEffect extends Effect {
 
     const level = user.level;
 
-    const attackingStat: StatName =
+    const attackingStat: StatModifierName =
       move.category === MoveCategory.Physical ? 'attack' : 'specialAttack';
-    const defendingStat: StatName =
+    const defendingStat: StatModifierName =
       move.category === MoveCategory.Physical ? 'defense' : 'specialDefense';
 
-    let a = user.getBaseStatWithModifier(attackingStat);
-    let d = target.getBaseStatWithModifier(defendingStat);
+    let a = user.getStatWithModifier(attackingStat);
+    let d = target.getStatWithModifier(defendingStat);
 
     const critical = getCritMultiplier(user.getStatStage('critical'));
     if (critical === 2) {
@@ -71,11 +71,11 @@ export class DamageEffect extends Effect {
       const defendingStage = target.getStatStage(defendingStat);
 
       if (attackingStage < 0) {
-        a = user.getBaseStat(attackingStat);
+        a = user.getStat(attackingStat);
       }
 
       if (defendingStage > 0) {
-        d = target.getBaseStat(defendingStat);
+        d = target.getStat(defendingStat);
       }
     }
 

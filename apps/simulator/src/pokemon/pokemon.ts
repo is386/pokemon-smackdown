@@ -1,7 +1,7 @@
 import { Move } from '../moves';
 import { Type } from '../type';
-import { BaseStatName, BaseStats } from './base-stats';
-import { StatModifiers, StatName } from './stat-modifiers';
+import { StatName, Stats } from './stats';
+import { StatModifiers, StatModifierName } from './stat-modifiers';
 
 export class Pokemon {
   private _name: string;
@@ -9,7 +9,9 @@ export class Pokemon {
   private _primaryType: Type;
   private _secondaryType: Type | undefined;
   private _currentHp: number;
-  private _baseStats: BaseStats;
+  private _baseStats: Stats;
+  private _ivs: Stats;
+  private _evs: Stats;
   private _statModifiers = new StatModifiers();
   private _moves: Move[];
 
@@ -18,7 +20,9 @@ export class Pokemon {
     level: number,
     primaryType: Type,
     secondaryType: Type | undefined,
-    baseStats: BaseStats,
+    baseStats: Stats,
+    ivs: Stats,
+    evs: Stats,
     moves: Move[]
   ) {
     this._name = name;
@@ -26,7 +30,16 @@ export class Pokemon {
     this._primaryType = primaryType;
     this._secondaryType = secondaryType;
     this._currentHp = baseStats.getStat('hp'); // TODO: Use the HP formula
+
     this._baseStats = baseStats;
+    this._baseStats.max = 999;
+
+    this._ivs = ivs;
+    this._ivs.max = 31;
+
+    this._evs = evs;
+    this._evs.max = 252;
+
     this._moves = moves;
   }
 
@@ -64,27 +77,33 @@ export class Pokemon {
     this._currentHp = Math.max(this._currentHp - damage, 0);
   }
 
-  getBaseStat(stat: BaseStatName): number {
-    return this._baseStats.getStat(stat);
+  getStat(stat: StatName): number {
+    const base = this._baseStats.getStat(stat);
+    const iv = this._ivs.getStat(stat);
+    const ev = this._evs.getStat(stat);
+    const finalStat = ((2 * base + iv + ev / 4) * this.level) / 100;
+    return Math.floor(
+      stat === 'hp' ? finalStat + this.level + 10 : finalStat + 5
+    );
   }
 
-  getBaseStatWithModifier(stat: BaseStatName): number {
+  getStatWithModifier(stat: StatName): number {
     return stat === 'hp'
-      ? this._currentHp
-      : this._baseStats.getStat(stat) * this._statModifiers.getModifier(stat);
+      ? this.getStat(stat)
+      : this.getStat(stat) * this._statModifiers.getModifier(stat);
   }
 
-  getStatStage(stat: StatName): number {
+  getStatStage(stat: StatModifierName): number {
     return this._statModifiers.getStage(stat);
   }
 
-  addStatStage(stat: StatName, stage: number): void {
+  addStatStage(stat: StatModifierName, stage: number): void {
     this._statModifiers.addStage(stat, stage);
   }
 
   toString(): string {
     const stages = `[atk:${this.getStatStage('attack')} def:${this.getStatStage('defense')} spa:${this.getStatStage('specialAttack')} spd:${this.getStatStage('specialDefense')} spe:${this.getStatStage('speed')} acc:${this.getStatStage('accuracy')} eva:${this.getStatStage('evasion')} crt:${this.getStatStage('critical')}]`;
-    let s = `${this._name}: ${this.getBaseStatWithModifier('hp')} ${stages}`;
+    let s = `${this._name}: ${this.getStatWithModifier('hp')} ${stages}`;
     this._moves.forEach((move) => {
       s += `\n - ${move.name} (${move.pp}/${move.maxPp})`;
     });

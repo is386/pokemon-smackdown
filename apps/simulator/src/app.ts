@@ -1,5 +1,5 @@
 import { getMove } from './moves';
-import { BaseStats, Pokemon } from './pokemon';
+import { Stats, Pokemon } from './pokemon';
 import { Type } from './type';
 
 function main(): void {
@@ -8,7 +8,9 @@ function main(): void {
     100,
     Type.Fire,
     Type.Flying,
-    new BaseStats(78, 84, 78, 109, 85, 100),
+    new Stats(78, 84, 78, 109, 85, 100),
+    new Stats(31, 31, 31, 31, 31, 31),
+    new Stats(252, 252, 0, 0, 0, 4),
     [getMove('Tackle')]
   );
 
@@ -17,11 +19,12 @@ function main(): void {
     100,
     Type.Water,
     undefined,
-    new BaseStats(79, 83, 100, 85, 105, 78),
+    new Stats(79, 83, 100, 85, 105, 78),
+    new Stats(31, 31, 31, 31, 31, 31),
+    new Stats(252, 0, 252, 0, 0, 4),
     [getMove('Growl')]
   );
 
-  p2.useMove(0, p1);
   p1.useMove(0, p2);
 }
 
