@@ -3,6 +3,7 @@ import { Type } from '../type';
 import { StatName, Stats } from './stats';
 import { StatModifiers, StatModifierName } from './stat-modifiers';
 import { Nature, natureMap, NatureStats } from './nature';
+import { Status } from '../status/status';
 
 export class Pokemon {
   private _name: string;
@@ -17,7 +18,8 @@ export class Pokemon {
   private _statModifiers = new StatModifiers();
   private _moves: Move[];
 
-  private _isFlinched = false;
+  private _status: Status | undefined;
+  private _skipTurn = false;
 
   constructor(
     name: string,
@@ -34,7 +36,6 @@ export class Pokemon {
     this._level = level;
     this._primaryType = primaryType;
     this._secondaryType = secondaryType;
-    this._currentHp = baseStats.getStat('hp'); // TODO: Use the HP formula
 
     this._baseStats = baseStats;
     this._baseStats.max = 999;
@@ -54,6 +55,8 @@ export class Pokemon {
     };
 
     this._moves = moves;
+
+    this._currentHp = this.getStat('hp');
   }
 
   get name(): string {
@@ -72,26 +75,37 @@ export class Pokemon {
     return this._secondaryType;
   }
 
-  set isFlinched(value: boolean) {
-    this._isFlinched = value;
+  set status(value: Status) {
+    this._status = value;
+  }
+
+  set skipTurn(value: boolean) {
+    this._skipTurn = value;
   }
 
   useMove(moveIndex: number, target: Pokemon): void {
-    if (this._isFlinched) {
-      this._isFlinched = false;
-      return;
-    }
     console.log(
-      '\n================================================================\n'
+      '\n========================================================================\n'
     );
     console.log(this.toString());
     console.log();
     console.log(target.toString());
     console.log();
+
+    const move = this._moves[moveIndex];
+    if (this._status) {
+      this._status.condition.apply(this);
+    }
+
+    if (this._skipTurn) {
+      this._skipTurn = false;
+      return;
+    }
+
     console.log(
       `${this._name} used ${this._moves[moveIndex].name} on ${target.name}`
     );
-    this._moves[moveIndex].use(this, target);
+    move.use(this, target);
   }
 
   takeDamage(damage: number) {
@@ -102,14 +116,19 @@ export class Pokemon {
     const base = this._baseStats.getStat(stat);
     const iv = this._ivs.getStat(stat);
     const ev = this._evs.getStat(stat);
-    const finalStat = Math.floor(
+    let finalStat = Math.floor(
       ((2 * base + iv + Math.floor(ev / 4)) * this.level) / 100
     );
-    return Math.floor(
-      stat === 'hp'
-        ? finalStat + this.level + 10
-        : (finalStat + 5) * this._natureStats[stat]
-    );
+
+    if (stat === 'hp') {
+      finalStat += this.level + 10;
+    } else {
+      finalStat = (finalStat + 5) * this._natureStats[stat];
+      if (stat === 'speed' && this._status?.isParalyzed) {
+        finalStat /= 2;
+      }
+    }
+    return Math.floor(finalStat);
   }
 
   getStatWithModifier(stat: StatName): number {
@@ -128,7 +147,8 @@ export class Pokemon {
 
   toString(): string {
     const stages = `[atk:${this.getStatStage('attack')} def:${this.getStatStage('defense')} spa:${this.getStatStage('specialAttack')} spd:${this.getStatStage('specialDefense')} spe:${this.getStatStage('speed')} acc:${this.getStatStage('accuracy')} eva:${this.getStatStage('evasion')} crt:${this.getStatStage('critical')}]`;
-    let s = `${this._name}: ${this.getStatWithModifier('hp')} ${stages}`;
+    const status = `${this._status?.toString().toUpperCase() ?? 'HEA'}`;
+    let s = `${this._name}: ${this._currentHp}/${this.getStatWithModifier('hp')} ${status} ${stages}`;
     this._moves.forEach((move) => {
       s += `\n - ${move.name} (${move.pp}/${move.maxPp})`;
     });

@@ -2,8 +2,10 @@ import { DamageEffect } from '../effects/damage.effect';
 import { FlinchEffect } from '../effects/flinch.effect';
 import { RecoilEffect } from '../effects/recoil.effect';
 import { RngEffect } from '../effects/rng.effect';
-import { TargetStatModifierEffect } from '../effects/target-stat-modifier.effect copy';
+import { TargetStatModifierEffect } from '../effects/target-stat-modifier.effect';
+import { TargetStatusConditionEffect } from '../effects/target-status-condition.effect';
 import { UserStatModifierEffect } from '../effects/user-stat-modifier.effect';
+import { ParalysisCondition } from '../status/paralysis.condition';
 import { Type } from '../type';
 import { Move } from './move';
 
@@ -202,6 +204,12 @@ const movesMap = new Map<string, Move>([
     new Move('Air Slash', Type.Flying, 'special', 15, 95, [
       new DamageEffect(75),
       new RngEffect(30, [new FlinchEffect()]),
+    ]),
+  ],
+  [
+    'thunder wave',
+    new Move('Thunder Wave', Type.Electric, 'status', 20, 90, [
+      new TargetStatusConditionEffect(new ParalysisCondition()),
     ]),
   ],
 ]);
