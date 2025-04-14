@@ -1,4 +1,5 @@
 import { DamageEffect } from '../effects/damage.effect';
+import { FlinchEffect } from '../effects/flinch.effect';
 import { RecoilEffect } from '../effects/recoil.effect';
 import { RngEffect } from '../effects/rng.effect';
 import { TargetStatModifierEffect } from '../effects/target-stat-modifier.effect copy';
@@ -26,8 +27,6 @@ import { Move } from './move';
 // Flare Blitz
 // Heat Wave
 // Shadow Claw
-// Air Slash
-// Bite
 // Rapid Spin
 // Protect
 // Water Pulse
@@ -189,6 +188,20 @@ const movesMap = new Map<string, Move>([
           new RngEffect(12.5, [new DamageEffect(15)]),
         ]),
       ]),
+    ]),
+  ],
+  [
+    'bite',
+    new Move('Bite', Type.Dark, 'physical', 25, 100, [
+      new DamageEffect(60),
+      new RngEffect(30, [new FlinchEffect()]),
+    ]),
+  ],
+  [
+    'air slash',
+    new Move('Air Slash', Type.Flying, 'special', 15, 95, [
+      new DamageEffect(75),
+      new RngEffect(30, [new FlinchEffect()]),
     ]),
   ],
 ]);

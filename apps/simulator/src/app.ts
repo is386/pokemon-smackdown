@@ -12,7 +12,7 @@ function main(): void {
     new Stats(31, 31, 31, 31, 31, 31),
     new Stats(0, 0, 0, 0, 0, 0),
     'hardy',
-    [getMove('fury attack')]
+    [getMove('bite')]
   );
 
   const p2 = new Pokemon(
@@ -28,6 +28,7 @@ function main(): void {
   );
 
   p1.useMove(0, p2);
+  p2.useMove(0, p2);
 }
 
 main();

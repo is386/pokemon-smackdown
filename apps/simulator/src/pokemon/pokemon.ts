@@ -17,6 +17,8 @@ export class Pokemon {
   private _statModifiers = new StatModifiers();
   private _moves: Move[];
 
+  private _isFlinched = false;
+
   constructor(
     name: string,
     level: number,
@@ -70,7 +72,15 @@ export class Pokemon {
     return this._secondaryType;
   }
 
+  set isFlinched(value: boolean) {
+    this._isFlinched = value;
+  }
+
   useMove(moveIndex: number, target: Pokemon): void {
+    if (this._isFlinched) {
+      this._isFlinched = false;
+      return;
+    }
     console.log(
       '\n================================================================\n'
     );
