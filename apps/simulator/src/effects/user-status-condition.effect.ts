@@ -1,4 +1,3 @@
-import { Move } from '../moves';
 import { Pokemon } from '../pokemon';
 import { Condition } from '../status/condition';
 import { Status } from '../status/status';
@@ -12,7 +11,7 @@ export class UserStatusConditionEffect extends Effect {
     this._condition = condition;
   }
 
-  apply(move: Move, user: Pokemon): void {
+  apply(user: Pokemon): void {
     if (user.status) {
       return;
     }

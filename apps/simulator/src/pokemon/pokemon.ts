@@ -4,20 +4,24 @@ import { StatName, Stats } from './stats';
 import { StatModifiers, StatModifierName } from './stat-modifiers';
 import { Nature, natureMap, NatureStats } from './nature';
 import { Status } from '../status/status';
+import { Effect } from '../effects';
 
 export class Pokemon {
   private _name: string;
   private _level: number;
   private _primaryType: Type;
   private _secondaryType: Type | undefined;
+
   private _currentHp: number;
   private _baseStats: Stats;
   private _ivs: Stats;
   private _evs: Stats;
   private _natureStats: NatureStats;
   private _statModifiers = new StatModifiers();
+
   private _moves: Move[];
 
+  private _endEffects: Effect[] = [];
   private _status: Status | undefined;
   private _skipTurn = false;
 
@@ -75,12 +79,20 @@ export class Pokemon {
     return this._secondaryType;
   }
 
+  get status(): Status | undefined {
+    return this._status;
+  }
+
   set status(value: Status) {
     this._status = value;
   }
 
   set skipTurn(value: boolean) {
     this._skipTurn = value;
+  }
+
+  get endEffects(): Effect[] {
+    return this._endEffects;
   }
 
   useMove(moveIndex: number, target: Pokemon): void {
@@ -92,7 +104,6 @@ export class Pokemon {
     console.log(target.toString());
     console.log();
 
-    const move = this._moves[moveIndex];
     if (this._status) {
       this._status.condition.apply(this);
     }
@@ -102,10 +113,13 @@ export class Pokemon {
       return;
     }
 
-    console.log(
-      `${this._name} used ${this._moves[moveIndex].name} on ${target.name}`
-    );
+    const move = this._moves[moveIndex];
     move.use(this, target);
+
+    this._endEffects.forEach((effect) => {
+      effect.apply(this, this);
+    });
+    this._endEffects = [];
   }
 
   takeDamage(damage: number) {

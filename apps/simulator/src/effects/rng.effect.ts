@@ -1,4 +1,3 @@
-import { Move } from '../moves';
 import { Pokemon } from '../pokemon';
 import { randomIntFromInterval } from '../utils';
 import { Effect } from './effect';
@@ -13,11 +12,11 @@ export class RngEffect extends Effect {
     this.effects = effects;
   }
 
-  apply(move: Move, user: Pokemon, target: Pokemon): void {
+  apply(user: Pokemon, target: Pokemon): void {
     const roll = randomIntFromInterval(0, 101);
     if (roll < this.chance) {
       this.effects.forEach((effect) => {
-        effect.apply(move, user, target);
+        effect.apply(user, target);
       });
     }
   }

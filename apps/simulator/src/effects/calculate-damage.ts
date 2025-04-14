@@ -1,8 +1,8 @@
 import { randomInt } from 'crypto';
-import { Move } from '../moves';
+import { MoveCategory } from '../moves';
 import { Pokemon } from '../pokemon';
 import { StatModifierName } from '../pokemon/stat-modifiers';
-import { typeEffectiveness } from '../type';
+import { Type, typeEffectiveness } from '../type';
 import { randomIntFromInterval } from '../utils';
 
 function getCritMultiplier(stage: number): number {
@@ -23,21 +23,22 @@ function getCritMultiplier(stage: number): number {
 }
 
 export function calculateDamage(
-  move: Move,
   user: Pokemon,
   target: Pokemon,
-  power: number
+  power: number,
+  type: Type,
+  category: MoveCategory
 ): number {
-  if (move.category === 'status') {
+  if (category === 'status') {
     throw Error('Move category is not Physical or Special');
   }
 
   const level = user.level;
 
   const attackingStat: StatModifierName =
-    move.category === 'physical' ? 'attack' : 'specialAttack';
+    category === 'physical' ? 'attack' : 'specialAttack';
   const defendingStat: StatModifierName =
-    move.category === 'physical' ? 'defense' : 'specialDefense';
+    category === 'physical' ? 'defense' : 'specialDefense';
 
   let a = user.getStatWithModifier(attackingStat);
   let d = target.getStatWithModifier(defendingStat);
@@ -58,14 +59,14 @@ export function calculateDamage(
 
   const random = randomIntFromInterval(85, 100) / 100;
   const stab =
-    move.type === user.primaryType || move.type === user.secondaryType
-      ? 1.5
-      : 1;
+    type === user.primaryType || type === user.secondaryType ? 1.5 : 1;
 
-  let type = typeEffectiveness[move.type][target.primaryType];
-  type *= target.secondaryType
-    ? typeEffectiveness[move.type][target.secondaryType]
+  let typeDamage = typeEffectiveness[type][target.primaryType];
+  typeDamage *= target.secondaryType
+    ? typeEffectiveness[type][target.secondaryType]
     : 1;
+
+  const burn = user.status?.isBurned ? 0.5 : 1;
 
   const damage =
     (Math.floor(((Math.floor((2 * level) / 5) + 2) * power * (a / d)) / 50) +
@@ -73,7 +74,8 @@ export function calculateDamage(
     critical *
     random *
     stab *
-    type;
+    typeDamage *
+    burn;
 
   const damageMin = (damage / random) * (85 / 100);
   const damageMax = damage / random;

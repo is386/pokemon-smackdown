@@ -1,4 +1,3 @@
-import { Move } from '../moves';
 import { Pokemon } from '../pokemon';
 import { StatModifierName } from '../pokemon/stat-modifiers';
 import { Effect } from './effect';
@@ -13,7 +12,7 @@ export class UserStatModifierEffect extends Effect {
     this._stage = stage;
   }
 
-  apply(move: Move, user: Pokemon): void {
+  apply(user: Pokemon): void {
     user.addStatStage(this._stat, this._stage);
   }
 }

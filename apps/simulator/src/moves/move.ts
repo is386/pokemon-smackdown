@@ -66,6 +66,8 @@ export class Move {
   }
 
   use(user: Pokemon, target: Pokemon): void {
+    console.log(`${user.name} used ${this._name} on ${target.name}`);
+
     if (this._pp === 0) {
       console.log(`${user.name} cannot use that move!`);
       return;
@@ -88,7 +90,7 @@ export class Move {
     }
 
     this._effects.forEach((effect) => {
-      effect.apply(this, user, target);
+      effect.apply(user, target);
     });
   }
 }
