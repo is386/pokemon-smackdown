@@ -1,8 +1,8 @@
+import { randomInt } from 'crypto';
 import { Effect } from '../effects';
 import { Pokemon } from '../pokemon';
 import { calculateAccuracyEvasionModifier } from '../pokemon/stat-modifiers';
 import { Type } from '../type';
-import { randomIntFromInterval } from '../utils';
 import { clamp } from '../utils/math';
 
 export type MoveCategory = 'physical' | 'special' | 'status';
@@ -80,9 +80,9 @@ export class Move {
     );
     const accuracyModified =
       this._accuracy * calculateAccuracyEvasionModifier(adjustedStages);
-    const r = randomIntFromInterval(1, 100);
+    const r = randomInt(1, 101);
 
-    if (r > accuracyModified) {
+    if (r > accuracyModified && this.accuracy !== -1) {
       console.log(`${user.name} missed!`);
       return;
     }

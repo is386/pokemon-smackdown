@@ -10,9 +10,9 @@ function main(): void {
     Type.Flying,
     new Stats(78, 84, 78, 109, 85, 100),
     new Stats(31, 31, 31, 31, 31, 31),
-    new Stats(252, 252, 0, 0, 0, 4),
-    'brave',
-    [getMove('tackle')]
+    new Stats(0, 0, 0, 0, 0, 0),
+    'hardy',
+    [getMove('fury attack')]
   );
 
   const p2 = new Pokemon(
@@ -22,7 +22,7 @@ function main(): void {
     undefined,
     new Stats(79, 83, 100, 85, 105, 78),
     new Stats(31, 31, 31, 31, 31, 31),
-    new Stats(252, 0, 252, 0, 0, 4),
+    new Stats(0, 0, 0, 0, 0, 0),
     'hardy',
     [getMove('growl')]
   );
