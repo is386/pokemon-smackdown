@@ -21,7 +21,8 @@ export class Pokemon {
 
   private _moves: Move[];
 
-  private _endEffects: Effect[] = [];
+  private _endOfTurnEffects: Effect[] = [];
+  private _afterStatusCheckEffects: Effect[] = [];
   private _status: Status | undefined;
   private _skipTurn = false;
 
@@ -63,63 +64,58 @@ export class Pokemon {
     this._currentHp = this.getStat('hp');
   }
 
-  get name(): string {
+  getName(): string {
     return this._name;
   }
 
-  get level(): number {
+  getLevel(): number {
     return this._level;
   }
 
-  get primaryType(): Type {
+  getPrimaryType(): Type {
     return this._primaryType;
   }
 
-  get secondaryType(): Type | undefined {
+  getSecondaryType(): Type | undefined {
     return this._secondaryType;
   }
 
-  get status(): Status | undefined {
+  getStatus(): Status | undefined {
     return this._status;
   }
 
-  set status(value: Status) {
+  setStatus(value: Status | undefined): void {
     this._status = value;
   }
 
-  set skipTurn(value: boolean) {
+  isSkipTurn(): boolean {
+    return this._skipTurn;
+  }
+
+  setSkipTurn(value: boolean): void {
     this._skipTurn = value;
   }
 
-  get endEffects(): Effect[] {
-    return this._endEffects;
+  getAfterStatusCheckEffects(): Effect[] {
+    return this._afterStatusCheckEffects;
+  }
+
+  getEndOfTurnEffects(): Effect[] {
+    return this._endOfTurnEffects;
   }
 
   useMove(moveIndex: number, target: Pokemon): void {
-    console.log(
-      '\n========================================================================\n'
-    );
-    console.log(this.toString());
-    console.log();
-    console.log(target.toString());
-    console.log();
+    this._applyStatusConditionEffects();
 
-    if (this._status) {
-      this._status.condition.apply(this);
+    this._applyAfterStatusCheckEffects();
+
+    if (!this._skipTurn) {
+      const move = this._moves[moveIndex];
+      move.use(this, target);
     }
 
-    if (this._skipTurn) {
-      this._skipTurn = false;
-      return;
-    }
-
-    const move = this._moves[moveIndex];
-    move.use(this, target);
-
-    this._endEffects.forEach((effect) => {
-      effect.apply(this, this);
-    });
-    this._endEffects = [];
+    this._skipTurn = false;
+    this._applyEndOfTurnEffects();
   }
 
   takeDamage(damage: number) {
@@ -131,11 +127,11 @@ export class Pokemon {
     const iv = this._ivs.getStat(stat);
     const ev = this._evs.getStat(stat);
     let finalStat = Math.floor(
-      ((2 * base + iv + Math.floor(ev / 4)) * this.level) / 100
+      ((2 * base + iv + Math.floor(ev / 4)) * this._level) / 100
     );
 
     if (stat === 'hp') {
-      finalStat += this.level + 10;
+      finalStat += this._level + 10;
     } else {
       finalStat = (finalStat + 5) * this._natureStats[stat];
       if (stat === 'speed' && this._status?.isParalyzed) {
@@ -164,8 +160,28 @@ export class Pokemon {
     const status = `${this._status?.toString().toUpperCase() ?? 'HEA'}`;
     let s = `${this._name}: ${this._currentHp}/${this.getStatWithModifier('hp')} ${status} ${stages}`;
     this._moves.forEach((move) => {
-      s += `\n - ${move.name} (${move.pp}/${move.maxPp})`;
+      s += `\n - ${move.getName()} (${move.getPp()}/${move.getMaxPp()})`;
     });
     return s;
+  }
+
+  private _applyStatusConditionEffects(): void {
+    if (this._status) {
+      this._status.getCondition().apply(this);
+    }
+  }
+
+  private _applyAfterStatusCheckEffects(): void {
+    this._afterStatusCheckEffects.forEach((effect) => {
+      effect.apply(this, this);
+    });
+    this._afterStatusCheckEffects = [];
+  }
+
+  private _applyEndOfTurnEffects(): void {
+    this._endOfTurnEffects.forEach((effect) => {
+      effect.apply(this, this);
+    });
+    this._endOfTurnEffects = [];
   }
 }

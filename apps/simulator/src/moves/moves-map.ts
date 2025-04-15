@@ -6,6 +6,7 @@ import { TargetStatModifierEffect } from '../effects/target-stat-modifier.effect
 import { TargetStatusConditionEffect } from '../effects/target-status-condition.effect';
 import { UserStatModifierEffect } from '../effects/user-stat-modifier.effect';
 import { BurnCondition } from '../status/burn.condition';
+import { FreezeCondition } from '../status/freeze.condition';
 import { ParalysisCondition } from '../status/paralysis.condition';
 import { Type } from '../type';
 import { Move } from './move';
@@ -216,8 +217,15 @@ const movesMap = new Map<string, Move>([
     'ember',
     new Move('Ember', Type.Fire, 'special', 25, 100, [
       new DamageEffect(40, Type.Fire, 'special'),
+      new RngEffect(10, [new TargetStatusConditionEffect(new BurnCondition())]),
+    ]),
+  ],
+  [
+    'ice beam',
+    new Move('Ice Beam', Type.Ice, 'special', 10, 100, [
+      new DamageEffect(90, Type.Ice, 'special'),
       new RngEffect(100, [
-        new TargetStatusConditionEffect(new BurnCondition()),
+        new TargetStatusConditionEffect(new FreezeCondition()),
       ]),
     ]),
   ],
@@ -228,7 +236,12 @@ export function getMove(name: string): Move {
   if (!move) {
     throw Error(`move ${name} not found`);
   }
-  return new Move(move.name, move.type, move.category, move.pp, move.accuracy, [
-    ...move.effects,
-  ]);
+  return new Move(
+    move.getName(),
+    move.getType(),
+    move.getCategory(),
+    move.getPp(),
+    move.getAccuracy(),
+    [...move.getEffects()]
+  );
 }

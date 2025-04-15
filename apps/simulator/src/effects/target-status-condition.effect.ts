@@ -12,9 +12,9 @@ export class TargetStatusConditionEffect extends Effect {
   }
 
   apply(user: Pokemon, target: Pokemon): void {
-    if (target.status) {
+    if (target.getStatus()) {
       return;
     }
-    target.status = new Status(this._condition);
+    target.setStatus(new Status(this._condition));
   }
 }

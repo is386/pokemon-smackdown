@@ -1,7 +1,7 @@
 import { MoveCategory } from '../moves';
 import { Pokemon } from '../pokemon';
 import { Type } from '../type';
-import { calculateDamage } from './calculate-damage';
+import { calculateDamage } from '../utils/calculate-damage';
 import { Effect } from './effect';
 
 export class RecoilEffect extends Effect {
@@ -32,7 +32,7 @@ export class RecoilEffect extends Effect {
       this._category
     );
     const recoil = Math.floor(damage * this._recoilRatio);
-    console.log(`${user.name} was damaged by the recoil!`);
+    console.log(`${user.getName()} was damaged by the recoil!`);
     target.takeDamage(damage);
     user.takeDamage(recoil);
   }

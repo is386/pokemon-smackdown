@@ -4,7 +4,9 @@ import { Condition } from './condition';
 
 export class BurnCondition extends Condition {
   apply(pokemon: Pokemon): void {
-    pokemon.endEffects.push(new DirectDamageEffect(pokemon.getStat('hp') / 16));
+    pokemon
+      .getEndOfTurnEffects()
+      .push(new DirectDamageEffect(pokemon.getStat('hp') / 16));
   }
 
   toString(): string {

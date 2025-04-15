@@ -3,7 +3,7 @@ import { MoveCategory } from '../moves';
 import { Pokemon } from '../pokemon';
 import { StatModifierName } from '../pokemon/stat-modifiers';
 import { Type, typeEffectiveness } from '../type';
-import { randomIntFromInterval } from '../utils';
+import { randomIntFromInterval } from '.';
 
 function getCritMultiplier(stage: number): number {
   let chance: number;
@@ -33,7 +33,7 @@ export function calculateDamage(
     throw Error('Move category is not Physical or Special');
   }
 
-  const level = user.level;
+  const level = user.getLevel();
 
   const attackingStat: StatModifierName =
     category === 'physical' ? 'attack' : 'specialAttack';
@@ -59,14 +59,15 @@ export function calculateDamage(
 
   const random = randomIntFromInterval(85, 100) / 100;
   const stab =
-    type === user.primaryType || type === user.secondaryType ? 1.5 : 1;
+    type === user.getPrimaryType() || type === user.getSecondaryType()
+      ? 1.5
+      : 1;
 
-  let typeDamage = typeEffectiveness[type][target.primaryType];
-  typeDamage *= target.secondaryType
-    ? typeEffectiveness[type][target.secondaryType]
-    : 1;
+  let typeDamage = typeEffectiveness[type][target.getPrimaryType()];
+  const secondaryType = target.getSecondaryType();
+  typeDamage *= secondaryType ? typeEffectiveness[type][secondaryType] : 1;
 
-  const burn = user.status?.isBurned ? 0.5 : 1;
+  const burn = user.getStatus()?.isBurned ? 0.5 : 1;
 
   const damage =
     (Math.floor(((Math.floor((2 * level) / 5) + 2) * power * (a / d)) / 50) +
@@ -77,9 +78,9 @@ export function calculateDamage(
     typeDamage *
     burn;
 
-  const damageMin = (damage / random) * (85 / 100);
-  const damageMax = damage / random;
-  console.log(Math.floor(damageMin), '-', Math.floor(damageMax));
+  // const damageMin = (damage / random) * (85 / 100);
+  // const damageMax = damage / random;
+  // console.log(Math.floor(damageMin), '-', Math.floor(damageMax));
 
   return Math.floor(damage);
 }

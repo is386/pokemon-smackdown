@@ -1,5 +1,6 @@
 import { BurnCondition } from './burn.condition';
 import { Condition } from './condition';
+import { FreezeCondition } from './freeze.condition';
 import { ParalysisCondition } from './paralysis.condition';
 
 export class Status {
@@ -9,16 +10,20 @@ export class Status {
     this._condition = condition;
   }
 
-  get condition(): Condition {
+  getCondition(): Condition {
     return this._condition;
   }
 
-  get isParalyzed(): boolean {
+  isParalyzed(): boolean {
     return this._condition instanceof ParalysisCondition;
   }
 
-  get isBurned(): boolean {
+  isBurned(): boolean {
     return this._condition instanceof BurnCondition;
+  }
+
+  isFrozen(): boolean {
+    return this._condition instanceof FreezeCondition;
   }
 
   toString(): string {

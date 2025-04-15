@@ -33,43 +33,43 @@ export class Move {
     this._effects = effects;
   }
 
-  get name(): string {
+  getName(): string {
     return this._name;
   }
 
-  get type(): Type {
+  getType(): Type {
     return this._type;
   }
 
-  get category(): MoveCategory {
+  getCategory(): MoveCategory {
     return this._category;
   }
 
-  set pp(num: number) {
+  setPp(num: number): void {
     this._pp = num;
   }
 
-  get pp(): number {
+  getPp(): number {
     return this._pp;
   }
 
-  get maxPp(): number {
+  getMaxPp(): number {
     return this._maxPp;
   }
 
-  get accuracy(): number {
+  getAccuracy(): number {
     return this._accuracy;
   }
 
-  get effects(): Effect[] {
+  getEffects(): Effect[] {
     return this._effects;
   }
 
   use(user: Pokemon, target: Pokemon): void {
-    console.log(`${user.name} used ${this._name} on ${target.name}`);
+    console.log(`${user.getName()} used ${this._name} on ${target.getName()}`);
 
     if (this._pp === 0) {
-      console.log(`${user.name} cannot use that move!`);
+      console.log(`${user.getName()} cannot use that move!`);
       return;
     }
 
@@ -84,8 +84,8 @@ export class Move {
       this._accuracy * calculateAccuracyEvasionModifier(adjustedStages);
     const r = randomInt(1, 101);
 
-    if (r > accuracyModified && this.accuracy !== -1) {
-      console.log(`${user.name} missed!`);
+    if (r > accuracyModified && this._accuracy !== -1) {
+      console.log(`${user.getName()} missed!`);
       return;
     }
 
