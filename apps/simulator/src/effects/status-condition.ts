@@ -3,11 +3,11 @@ import { Condition } from '../status/condition';
 import { Status } from '../status/status';
 import { Effect } from './effect';
 
-export class TargetStatusConditionEffect extends Effect {
+export class StatusConditionEffect extends Effect {
   private _condition: Condition;
 
-  constructor(condition: Condition) {
-    super();
+  constructor(isAppliedToUser: boolean, condition: Condition) {
+    super(isAppliedToUser);
     this._condition = condition;
   }
 

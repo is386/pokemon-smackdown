@@ -11,12 +11,13 @@ export class RecoilEffect extends Effect {
   private _recoilRatio: number;
 
   constructor(
+    isAppliedToUser: boolean,
     power: number,
     type: Type,
     category: MoveCategory,
     recoilRatio: number
   ) {
-    super();
+    super(isAppliedToUser);
     this._power = power;
     this._type = type;
     this._category = category;

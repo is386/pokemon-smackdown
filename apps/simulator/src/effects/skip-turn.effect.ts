@@ -4,8 +4,8 @@ import { Effect } from './effect';
 export class SkipTurnEffect extends Effect {
   private _skipTurnMessage: string;
 
-  constructor(skipTurnMessage: string) {
-    super();
+  constructor(isAppliedToUser: boolean, skipTurnMessage: string) {
+    super(isAppliedToUser);
     this._skipTurnMessage = skipTurnMessage;
   }
 

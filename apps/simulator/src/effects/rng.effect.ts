@@ -16,7 +16,11 @@ export class RngEffect extends Effect {
     const roll = randomIntFromInterval(0, 101);
     if (roll < this.chance) {
       this.effects.forEach((effect) => {
-        effect.apply(user, target);
+        if (effect.isAppliedToUser) {
+          effect.apply(user, user);
+        } else {
+          effect.apply(user, target);
+        }
       });
     }
   }

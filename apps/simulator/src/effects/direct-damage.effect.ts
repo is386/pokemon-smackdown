@@ -4,8 +4,8 @@ import { Effect } from './effect';
 export class DirectDamageEffect extends Effect {
   private _damage: number;
 
-  constructor(damage: number) {
-    super();
+  constructor(isAppliedToUser: boolean, damage: number) {
+    super(isAppliedToUser);
     this._damage = damage;
   }
 

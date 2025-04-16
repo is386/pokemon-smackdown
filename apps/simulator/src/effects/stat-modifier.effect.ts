@@ -2,12 +2,12 @@ import { Pokemon } from '../pokemon';
 import { StatModifierName } from '../pokemon/stat-modifiers';
 import { Effect } from './effect';
 
-export class TargetStatModifierEffect extends Effect {
+export class StatModifierEffect extends Effect {
   private _stat: StatModifierName;
   private _stage: number;
 
-  constructor(stat: StatModifierName, stage: number) {
-    super();
+  constructor(isAppliedToUser: boolean, stat: StatModifierName, stage: number) {
+    super(isAppliedToUser);
     this._stat = stat;
     this._stage = stage;
   }

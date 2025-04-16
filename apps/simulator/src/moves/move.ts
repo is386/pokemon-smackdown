@@ -90,7 +90,11 @@ export class Move {
     }
 
     this._effects.forEach((effect) => {
-      effect.apply(user, target);
+      if (effect.isAppliedToUser) {
+        effect.apply(user, user);
+      } else {
+        effect.apply(user, target);
+      }
     });
   }
 }

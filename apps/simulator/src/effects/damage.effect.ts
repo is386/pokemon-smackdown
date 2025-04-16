@@ -9,8 +9,13 @@ export class DamageEffect extends Effect {
   private _type: Type;
   private _category: MoveCategory;
 
-  constructor(power: number, type: Type, category: MoveCategory) {
-    super();
+  constructor(
+    isAppliedToUser: boolean,
+    power: number,
+    type: Type,
+    category: MoveCategory
+  ) {
+    super(isAppliedToUser);
     this._power = power;
     this._type = type;
     this._category = category;
