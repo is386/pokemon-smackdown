@@ -9,7 +9,6 @@ export class SleepEffect extends Effect {
 
   constructor(turns: number = randomIntFromInterval(1, 3)) {
     super();
-    console.log(turns);
     this._turns = turns;
   }
 

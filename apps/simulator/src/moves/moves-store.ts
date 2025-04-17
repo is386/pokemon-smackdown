@@ -2,6 +2,7 @@ import { BurnEffect } from '../effects/burn.effect';
 import { FlinchEffect } from '../effects/flinch.effect';
 import { FreezeEffect } from '../effects/freeze.effect';
 import { ParalysisEffect } from '../effects/paralysis.effect';
+import { PoisonEffect } from '../effects/poison.effect';
 import { RngEffect } from '../effects/rng.effect';
 import { SleepEffect } from '../effects/sleep.effect';
 import { StatModifierEffect } from '../effects/stat-modifier.effect';
@@ -12,7 +13,6 @@ import { StatusMove } from './status-move';
 
 // TODO
 // Leech Seed
-// Poison Powder
 // Sleep Powder
 // Razor Leaf
 // Worry Seed
@@ -135,7 +135,8 @@ const moves: Move[] = [
     [],
     [new RngEffect(30, [new BurnEffect()])]
   ),
-  new StatusMove('Hypnosis', Type.Psychic, 20, 100, [], [new SleepEffect()]),
+  new StatusMove('Hypnosis', Type.Psychic, 20, 70, [], [new SleepEffect()]),
+  new StatusMove('Poison Powder', Type.Poison, 20, 75, [], [new PoisonEffect()]),
 ];
 
 export function getMove(name: string): Move {
