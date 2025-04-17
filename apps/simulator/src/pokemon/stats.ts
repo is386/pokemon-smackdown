@@ -1,12 +1,6 @@
 import { clamp } from '../utils/math';
 
-export type StatName =
-  | 'hp'
-  | 'attack'
-  | 'defense'
-  | 'specialAttack'
-  | 'specialDefense'
-  | 'speed';
+export type StatName = 'hp' | 'attack' | 'defense' | 'specialAttack' | 'specialDefense' | 'speed';
 
 export class Stats {
   private _stats: Record<StatName, number>;

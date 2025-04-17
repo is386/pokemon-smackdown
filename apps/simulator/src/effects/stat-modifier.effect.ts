@@ -6,13 +6,13 @@ export class StatModifierEffect extends Effect {
   private _stat: StatModifierName;
   private _stage: number;
 
-  constructor(isAppliedToUser: boolean, stat: StatModifierName, stage: number) {
-    super(isAppliedToUser);
+  constructor(stat: StatModifierName, stage: number) {
+    super();
     this._stat = stat;
     this._stage = stage;
   }
 
-  apply(user: Pokemon, target: Pokemon): void {
-    target.addStatStage(this._stat, this._stage);
+  apply(pokemon: Pokemon): void {
+    pokemon.addStatStage(this._stat, this._stage);
   }
 }

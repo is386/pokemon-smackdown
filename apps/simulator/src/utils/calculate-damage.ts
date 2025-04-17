@@ -1,9 +1,9 @@
 import { randomInt } from 'crypto';
-import { MoveCategory } from '../moves';
 import { Pokemon } from '../pokemon';
 import { StatModifierName } from '../pokemon/stat-modifiers';
-import { Type, typeEffectiveness } from '../type';
+import { typeEffectiveness } from '../type';
 import { randomIntFromInterval } from '.';
+import { DamageMove } from '../moves';
 
 function getCritMultiplier(stage: number): number {
   let chance: number;
@@ -22,23 +22,15 @@ function getCritMultiplier(stage: number): number {
   return roll < chance ? 2 : 1;
 }
 
-export function calculateDamage(
-  user: Pokemon,
-  target: Pokemon,
-  power: number,
-  type: Type,
-  category: MoveCategory
-): number {
-  if (category === 'status') {
-    throw Error('Move category is not Physical or Special');
-  }
+export function calculateDamage(move: DamageMove, user: Pokemon, target: Pokemon): number {
+  const category = move.getCategory();
+  const type = move.getType();
+  const power = move.getPower();
 
   const level = user.getLevel();
 
-  const attackingStat: StatModifierName =
-    category === 'physical' ? 'attack' : 'specialAttack';
-  const defendingStat: StatModifierName =
-    category === 'physical' ? 'defense' : 'specialDefense';
+  const attackingStat: StatModifierName = category === 'physical' ? 'attack' : 'specialAttack';
+  const defendingStat: StatModifierName = category === 'physical' ? 'defense' : 'specialDefense';
 
   let a = user.getStatWithModifier(attackingStat);
   let d = target.getStatWithModifier(defendingStat);
@@ -58,10 +50,7 @@ export function calculateDamage(
   }
 
   const random = randomIntFromInterval(85, 100) / 100;
-  const stab =
-    type === user.getPrimaryType() || type === user.getSecondaryType()
-      ? 1.5
-      : 1;
+  const stab = type === user.getPrimaryType() || type === user.getSecondaryType() ? 1.5 : 1;
 
   let typeDamage = typeEffectiveness[type][target.getPrimaryType()];
   const secondaryType = target.getSecondaryType();
@@ -70,8 +59,7 @@ export function calculateDamage(
   const burn = user.getStatus()?.isBurned ? 0.5 : 1;
 
   const damage =
-    (Math.floor(((Math.floor((2 * level) / 5) + 2) * power * (a / d)) / 50) +
-      2) *
+    (Math.floor(((Math.floor((2 * level) / 5) + 2) * power * (a / d)) / 50) + 2) *
     critical *
     random *
     stab *

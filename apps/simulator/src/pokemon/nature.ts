@@ -34,10 +34,7 @@ export interface NatureStats {
 }
 
 export const natureMap = new Map<Nature, NatureStats>([
-  [
-    'hardy',
-    { attack: 1, defense: 1, specialAttack: 1, specialDefense: 1, speed: 1 },
-  ],
+  ['hardy', { attack: 1, defense: 1, specialAttack: 1, specialDefense: 1, speed: 1 }],
   [
     'lonely',
     {
@@ -88,10 +85,7 @@ export const natureMap = new Map<Nature, NatureStats>([
       speed: 1,
     },
   ],
-  [
-    'docile',
-    { attack: 1, defense: 1, specialAttack: 1, specialDefense: 1, speed: 1 },
-  ],
+  ['docile', { attack: 1, defense: 1, specialAttack: 1, specialDefense: 1, speed: 1 }],
   [
     'relaxed',
     {
@@ -142,10 +136,7 @@ export const natureMap = new Map<Nature, NatureStats>([
       speed: 1.1,
     },
   ],
-  [
-    'serious',
-    { attack: 1, defense: 1, specialAttack: 1, specialDefense: 1, speed: 1 },
-  ],
+  ['serious', { attack: 1, defense: 1, specialAttack: 1, specialDefense: 1, speed: 1 }],
   [
     'jolly',
     {
@@ -196,10 +187,7 @@ export const natureMap = new Map<Nature, NatureStats>([
       speed: 0.9,
     },
   ],
-  [
-    'bashful',
-    { attack: 1, defense: 1, specialAttack: 1, specialDefense: 1, speed: 1 },
-  ],
+  ['bashful', { attack: 1, defense: 1, specialAttack: 1, specialDefense: 1, speed: 1 }],
   [
     'rash',
     {
@@ -250,8 +238,5 @@ export const natureMap = new Map<Nature, NatureStats>([
       speed: 1,
     },
   ],
-  [
-    'quirky',
-    { attack: 1, defense: 1, specialAttack: 1, specialDefense: 1, speed: 1 },
-  ],
+  ['quirky', { attack: 1, defense: 1, specialAttack: 1, specialDefense: 1, speed: 1 }],
 ]);

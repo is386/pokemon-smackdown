@@ -6,6 +6,6 @@
     "build": "tsc",
     "clean": "rm -rf dist/",
     "lint": "eslint --max-warnings 0",
-    "start": "tsx watch --clear-screen=false src/app.ts"
+    "start": "tsx watch --clear-screen=true src/app.ts"
   }
 }

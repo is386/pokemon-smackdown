@@ -5,32 +5,30 @@ import { calculateAccuracyEvasionModifier } from '../pokemon/stat-modifiers';
 import { Type } from '../type';
 import { clamp } from '../utils/math';
 
-export type MoveCategory = 'physical' | 'special' | 'status';
-
-export class Move {
-  private _name: string;
-  private _type: Type;
-  private _category: MoveCategory;
-  private _pp: number;
-  private _maxPp: number;
-  private _accuracy: number;
-  private _effects: Effect[];
+export abstract class Move {
+  protected _name: string;
+  protected _type: Type;
+  protected _pp: number;
+  protected _maxPp: number;
+  protected _accuracy: number;
+  protected _userEffects: Effect[];
+  protected _targetEffects: Effect[];
 
   constructor(
     name: string,
     type: Type,
-    category: MoveCategory,
     pp: number,
     accuracy: number,
-    effects: Effect[]
+    userEffects: Effect[],
+    targetEffects: Effect[]
   ) {
     this._name = name;
-    this._category = category;
     this._type = type;
     this._pp = pp;
     this._maxPp = pp;
     this._accuracy = accuracy;
-    this._effects = effects;
+    this._userEffects = userEffects;
+    this._targetEffects = targetEffects;
   }
 
   getName(): string {
@@ -39,10 +37,6 @@ export class Move {
 
   getType(): Type {
     return this._type;
-  }
-
-  getCategory(): MoveCategory {
-    return this._category;
   }
 
   setPp(num: number): void {
@@ -61,40 +55,45 @@ export class Move {
     return this._accuracy;
   }
 
-  getEffects(): Effect[] {
-    return this._effects;
+  getUserEffects(): Effect[] {
+    return this._userEffects;
   }
 
-  use(user: Pokemon, target: Pokemon): void {
-    console.log(`${user.getName()} used ${this._name} on ${target.getName()}`);
+  getTargetEffects(): Effect[] {
+    return this._targetEffects;
+  }
 
-    if (this._pp === 0) {
-      console.log(`${user.getName()} cannot use that move!`);
-      return;
-    }
-
-    this._pp = Math.max(0, this._pp - 1);
-
+  protected _calculateAccuracy(user: Pokemon, target: Pokemon): number {
     const adjustedStages = clamp(
       user.getStatStage('accuracy') - target.getStatStage('evasion'),
       -6,
       6
     );
-    const accuracyModified =
-      this._accuracy * calculateAccuracyEvasionModifier(adjustedStages);
-    const r = randomInt(1, 101);
+    return this._accuracy * calculateAccuracyEvasionModifier(adjustedStages);
+  }
 
-    if (r > accuracyModified && this._accuracy !== -1) {
+  protected _applyEffects(user: Pokemon, target: Pokemon): void {
+    this._userEffects.forEach((effect) => effect.apply(user));
+    this._targetEffects.forEach((effect) => effect.apply(target));
+  }
+
+  use(user: Pokemon, target: Pokemon): boolean {
+    console.log(`${user.getName()} used ${this._name} on ${target.getName()}`);
+
+    if (this._pp === 0) {
+      console.log(`${user.getName()} cannot use that move!`);
+      return false;
+    }
+    this._pp = Math.max(0, this._pp - 1);
+
+    const accuracy = this._calculateAccuracy(user, target);
+    if (randomInt(1, 101) > accuracy && this._accuracy !== -1) {
       console.log(`${user.getName()} missed!`);
-      return;
+      return false;
     }
 
-    this._effects.forEach((effect) => {
-      if (effect.isAppliedToUser) {
-        effect.apply(user, user);
-      } else {
-        effect.apply(user, target);
-      }
-    });
+    return true;
   }
+
+  abstract copy(): Move;
 }

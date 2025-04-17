@@ -20,6 +20,7 @@ export class Pokemon {
   private _statModifiers = new StatModifiers();
 
   private _moves: Move[];
+  private _selectedMove: Move | undefined;
 
   private _endOfTurnEffects: Effect[] = [];
   private _afterStatusCheckEffects: Effect[] = [];
@@ -104,14 +105,19 @@ export class Pokemon {
     return this._endOfTurnEffects;
   }
 
+  getSelectedMove(): Move | undefined {
+    return this._selectedMove;
+  }
+
   useMove(moveIndex: number, target: Pokemon): void {
+    this._selectedMove = this._moves[moveIndex];
+
     this._applyStatusConditionEffects();
 
     this._applyAfterStatusCheckEffects();
 
     if (!this._skipTurn) {
-      const move = this._moves[moveIndex];
-      move.use(this, target);
+      this._selectedMove.use(this, target);
     }
 
     this._skipTurn = false;
@@ -126,16 +132,16 @@ export class Pokemon {
     const base = this._baseStats.getStat(stat);
     const iv = this._ivs.getStat(stat);
     const ev = this._evs.getStat(stat);
-    let finalStat = Math.floor(
-      ((2 * base + iv + Math.floor(ev / 4)) * this._level) / 100
-    );
+    let finalStat = Math.floor(((2 * base + iv + Math.floor(ev / 4)) * this._level) / 100);
 
     if (stat === 'hp') {
       finalStat += this._level + 10;
     } else {
       finalStat = (finalStat + 5) * this._natureStats[stat];
       if (stat === 'speed' && this._status?.isParalyzed) {
+        console.log(finalStat);
         finalStat /= 2;
+        console.log(finalStat);
       }
     }
     return Math.floor(finalStat);
@@ -173,14 +179,14 @@ export class Pokemon {
 
   private _applyAfterStatusCheckEffects(): void {
     this._afterStatusCheckEffects.forEach((effect) => {
-      effect.apply(this, this);
+      effect.apply(this);
     });
     this._afterStatusCheckEffects = [];
   }
 
   private _applyEndOfTurnEffects(): void {
     this._endOfTurnEffects.forEach((effect) => {
-      effect.apply(this, this);
+      effect.apply(this);
     });
     this._endOfTurnEffects = [];
   }

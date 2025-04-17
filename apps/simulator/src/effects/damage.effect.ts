@@ -1,29 +1,39 @@
-import { MoveCategory } from '../moves';
+import { DamageMove } from '../moves';
 import { Pokemon } from '../pokemon';
 import { Type } from '../type';
-import { calculateDamage } from '../utils/calculate-damage';
 import { Effect } from './effect';
 
-export class DamageEffect extends Effect {
-  private _power: number;
-  private _type: Type;
-  private _category: MoveCategory;
+const nonFireMovesThatThaw = ['scald'];
 
-  constructor(
-    isAppliedToUser: boolean,
-    power: number,
-    type: Type,
-    category: MoveCategory
-  ) {
-    super(isAppliedToUser);
-    this._power = power;
-    this._type = type;
-    this._category = category;
+export class DamageEffect extends Effect {
+  private _move: DamageMove | undefined;
+  private _damage: number;
+  private _message: string;
+
+  constructor(move: DamageMove | undefined, damage: number, message: string = '') {
+    super();
+    this._move = move;
+    this._damage = damage;
+    this._message = message;
   }
 
-  apply(user: Pokemon, target: Pokemon): void {
-    target.takeDamage(
-      calculateDamage(user, target, this._power, this._type, this._category)
-    );
+  apply(pokemon: Pokemon): void {
+    this._applyThaw(pokemon);
+    pokemon.takeDamage(this._damage);
+
+    if (this._message) {
+      console.log(this._message);
+    }
+  }
+
+  private _applyThaw(pokemon: Pokemon): void {
+    if (
+      pokemon.getStatus()?.isFrozen() &&
+      (this._move?.getType() === Type.Fire ||
+        nonFireMovesThatThaw.includes(this._move?.getName().toLowerCase() ?? ''))
+    ) {
+      pokemon.setStatus(undefined);
+      console.log(`${pokemon.getName()} thawed out!`);
+    }
   }
 }

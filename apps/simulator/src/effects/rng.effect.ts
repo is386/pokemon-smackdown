@@ -12,15 +12,11 @@ export class RngEffect extends Effect {
     this.effects = effects;
   }
 
-  apply(user: Pokemon, target: Pokemon): void {
+  apply(pokemon: Pokemon): void {
     const roll = randomIntFromInterval(0, 101);
     if (roll < this.chance) {
       this.effects.forEach((effect) => {
-        if (effect.isAppliedToUser) {
-          effect.apply(user, user);
-        } else {
-          effect.apply(user, target);
-        }
+        effect.apply(pokemon);
       });
     }
   }
