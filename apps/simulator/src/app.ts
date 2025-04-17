@@ -22,13 +22,13 @@ function main(): void {
     new Stats(31, 31, 31, 31, 31, 31),
     new Stats(0, 0, 0, 0, 0, 0),
     'hardy',
-    [getMove('ice beam')]
+    [getMove('growl')]
   );
 
   const p2 = new Pokemon(
     'Blastoise',
     100,
-    Type.Water,
+    Type.Ghost,
     undefined,
     new Stats(79, 83, 100, 85, 105, 78),
     new Stats(31, 31, 31, 31, 31, 31),

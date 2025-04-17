@@ -7,7 +7,6 @@ import { StatModifierEffect } from '../effects/stat-modifier.effect';
 import { Type } from '../type';
 import { DamageMove } from './damage-move';
 import { Move } from './move';
-import { RecoilMove } from './recoil-move';
 import { StatusMove } from './status-move';
 
 // TODO
@@ -41,7 +40,6 @@ const moves: Move[] = [
   new DamageMove('Tackle', Type.Normal, 'physical', 40, 35, 100, [], []),
   new StatusMove('Growl', Type.Normal, 40, 100, [], [new StatModifierEffect('attack', -1)]),
   new DamageMove('Vine Whip', Type.Grass, 'physical', 45, 25, 100, [], []),
-  new RecoilMove('Take Down', Type.Normal, 'physical', 90, 0.25, 20, 85, [], []),
   new StatusMove('Sweet Scent', Type.Normal, 20, 100, [], [new StatModifierEffect('evasion', -2)]),
   new StatusMove(
     'Growth',
@@ -51,7 +49,6 @@ const moves: Move[] = [
     [new StatModifierEffect('attack', 1), new StatModifierEffect('specialAttack', 1)],
     []
   ),
-  new RecoilMove('Double-Edge', Type.Normal, 'physical', 120, 1 / 3, 15, 100, [], []),
   new DamageMove('Seed Bomb', Type.Grass, 'physical', 80, 15, 100, [], []),
   new DamageMove('Scratch', Type.Normal, 'physical', 40, 35, 100, [], []),
   new StatusMove('Smokescreen', Type.Normal, 20, 100, [], [new StatModifierEffect('accuracy', -1)]),

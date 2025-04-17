@@ -1,6 +1,6 @@
 import { Effect } from '../effects';
 import { Pokemon } from '../pokemon';
-import { Type } from '../type';
+import { Type, typeEffectiveness } from '../type';
 import { calculateDamage } from '../utils/calculate-damage';
 import { DamageEffect } from '../effects/damage.effect';
 import { Move } from './move';
@@ -40,6 +40,7 @@ export class DamageMove extends Move {
     }
 
     this._applyDamage(user, target);
+    this._logEffectiveness(target);
     this._applyEffects(user, target);
     return true;
   }
@@ -48,6 +49,27 @@ export class DamageMove extends Move {
     const damage = calculateDamage(this, user, target);
     new DamageEffect(this, damage).apply(target);
     return damage;
+  }
+
+  protected _logEffectiveness(target: Pokemon): void {
+    const primaryType = target.getPrimaryType();
+    const secondaryType = target.getSecondaryType();
+    if (
+      typeEffectiveness[this._type][primaryType] === 2 ||
+      (secondaryType && typeEffectiveness[this._type][secondaryType] === 2)
+    ) {
+      console.log(`It's super effective!`);
+    } else if (
+      typeEffectiveness[this._type][primaryType] === 0.5 ||
+      (secondaryType && typeEffectiveness[this._type][secondaryType] === 0.5)
+    ) {
+      console.log(`It's not very effective...`);
+    } else if (
+      typeEffectiveness[this._type][primaryType] === 0 ||
+      (secondaryType && typeEffectiveness[this._type][secondaryType] === 0)
+    ) {
+      console.log(`It has no effect.`);
+    }
   }
 
   copy(): DamageMove {
