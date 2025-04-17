@@ -22,7 +22,7 @@ function main(): void {
     new Stats(31, 31, 31, 31, 31, 31),
     new Stats(0, 0, 0, 0, 0, 0),
     'hardy',
-    [getMove('growl')]
+    [getMove('hypnosis'), getMove('growl')]
   );
 
   const p2 = new Pokemon(
@@ -34,10 +34,14 @@ function main(): void {
     new Stats(31, 31, 31, 31, 31, 31),
     new Stats(0, 0, 0, 0, 0, 0),
     'hardy',
-    [getMove('scald')]
+    [getMove('growl')]
   );
 
   turn(p1, 0, p2, 0);
+  turn(p1, 1, p2, 0);
+  turn(p1, 1, p2, 0);
+  turn(p1, 1, p2, 0);
+  turn(p1, 1, p2, 0);
 }
 
 main();

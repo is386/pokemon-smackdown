@@ -3,7 +3,7 @@ import { Type } from '../type';
 import { StatName, Stats } from './stats';
 import { StatModifiers, StatModifierName } from './stat-modifiers';
 import { Nature, natureMap, NatureStats } from './nature';
-import { Status } from '../status/status';
+import { Status } from '../status';
 import { Effect } from '../effects';
 
 export class Pokemon {

@@ -3,6 +3,7 @@ import { FlinchEffect } from '../effects/flinch.effect';
 import { FreezeEffect } from '../effects/freeze.effect';
 import { ParalysisEffect } from '../effects/paralysis.effect';
 import { RngEffect } from '../effects/rng.effect';
+import { SleepEffect } from '../effects/sleep.effect';
 import { StatModifierEffect } from '../effects/stat-modifier.effect';
 import { Type } from '../type';
 import { DamageMove } from './damage-move';
@@ -91,7 +92,7 @@ const moves: Move[] = [
     25,
     100,
     [],
-    [new RngEffect(100, [new FlinchEffect()])]
+    [new RngEffect(30, [new FlinchEffect()])]
   ),
   new DamageMove(
     'Air Slash',
@@ -122,7 +123,7 @@ const moves: Move[] = [
     10,
     100,
     [],
-    [new RngEffect(100, [new FreezeEffect()])]
+    [new RngEffect(10, [new FreezeEffect()])]
   ),
   new DamageMove(
     'Scald',
@@ -134,6 +135,7 @@ const moves: Move[] = [
     [],
     [new RngEffect(30, [new BurnEffect()])]
   ),
+  new StatusMove('Hypnosis', Type.Psychic, 20, 100, [], [new SleepEffect()]),
 ];
 
 export function getMove(name: string): Move {

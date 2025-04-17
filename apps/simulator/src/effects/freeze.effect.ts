@@ -1,6 +1,6 @@
 import { Pokemon } from '../pokemon';
-import { FreezeCondition } from '../status/freeze.condition';
-import { Status } from '../status/status';
+import { FreezeCondition } from '../status';
+import { Status } from '../status';
 import { Type } from '../type';
 import { Effect } from './effect';
 

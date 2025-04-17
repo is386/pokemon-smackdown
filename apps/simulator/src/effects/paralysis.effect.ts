@@ -1,6 +1,6 @@
 import { Pokemon } from '../pokemon';
-import { ParalysisCondition } from '../status/paralysis.condition';
-import { Status } from '../status/status';
+import { ParalysisCondition } from '../status';
+import { Status } from '../status';
 import { Type } from '../type';
 
 export class ParalysisEffect {
