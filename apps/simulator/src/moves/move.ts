@@ -4,6 +4,11 @@ import { Pokemon } from '../pokemon';
 import { calculateAccuracyEvasionModifier } from '../pokemon/stat-modifiers';
 import { Type, typeEffectiveness } from '../type';
 import { clamp } from '../utils/math';
+import { DamageMove } from './damage.move';
+import { MultiStrikeMove } from './multi-strike.move';
+import { RecoilMove } from './recoil.move';
+
+export type AttackMove = DamageMove | RecoilMove | MultiStrikeMove;
 
 export abstract class Move {
   protected _name: string;

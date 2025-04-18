@@ -11,6 +11,7 @@ import { DamageMove } from './damage.move';
 import { Move } from './move';
 import { StatusMove } from './status.move';
 import { RecoilMove } from './recoil.move';
+import { MultiStrikeMove } from './multi-strike.move';
 
 // TODO
 // Leech Seed
@@ -36,7 +37,6 @@ import { RecoilMove } from './recoil.move';
 // Rain Dance
 // Bug Bite
 // Twin Needle
-// Fury Attack
 
 const moves: Move[] = [
   new DamageMove('Tackle', Type.Normal, 'physical', 40, 35, 100, [], []),
@@ -140,6 +140,7 @@ const moves: Move[] = [
   new StatusMove('Poison Powder', Type.Poison, 20, 75, [], [new PoisonEffect()]),
   new RecoilMove('Take Down', Type.Normal, 'physical', 90, 0.25, 20, 85, [], []),
   new RecoilMove('Double-Edge', Type.Normal, 'physical', 120, 1 / 3, 15, 100, [], []),
+  new MultiStrikeMove('Fury Attack', Type.Normal, 'physical', 15, 20, 85, [], []),
 ];
 
 export function getMove(name: string): Move {

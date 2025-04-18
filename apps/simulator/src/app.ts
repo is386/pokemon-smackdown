@@ -23,7 +23,7 @@ function main(): void {
     new Stats(31, 31, 31, 31, 31, 31),
     new Stats(0, 0, 0, 0, 0, 0),
     'hardy',
-    [getMove('double-edge')]
+    [getMove('fury attack')]
   );
 
   const p2 = new Pokemon(
@@ -38,6 +38,7 @@ function main(): void {
     [getMove('growl')]
   );
 
+  turn(p1, 0, p2, 0);
   turn(p1, 0, p2, 0);
 }
 

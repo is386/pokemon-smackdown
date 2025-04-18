@@ -1,4 +1,4 @@
-import { DamageMove, RecoilMove } from '../moves';
+import { AttackMove } from '../moves';
 import { Pokemon } from '../pokemon';
 import { Type } from '../type';
 import { Effect } from './effect';
@@ -6,11 +6,11 @@ import { Effect } from './effect';
 const nonFireMovesThatThaw = ['scald'];
 
 export class DamageEffect extends Effect {
-  private _move: DamageMove | RecoilMove | undefined;
+  private _move: AttackMove | undefined;
   private _damage: number;
   private _message: string;
 
-  constructor(move: DamageMove | RecoilMove | undefined, damage: number, message: string = '') {
+  constructor(move: AttackMove | undefined, damage: number, message: string = '') {
     super();
     this._move = move;
     this._damage = damage;
