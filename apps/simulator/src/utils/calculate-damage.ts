@@ -1,6 +1,5 @@
 import { randomInt } from 'crypto';
-import { Pokemon } from '../pokemon';
-import { StatModifierName } from '../pokemon/stat-modifiers';
+import { Pokemon, StatModifierName } from '../pokemon';
 import { typeEffectiveness } from '../type';
 import { randomIntFromInterval } from '.';
 import { AttackMove } from '../moves';

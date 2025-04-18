@@ -1,4 +1,4 @@
-import { DamageEffect } from '../effects/damage.effect';
+import { DamageEffect } from '../effects';
 import { Pokemon } from '../pokemon';
 import { Condition } from './condition';
 

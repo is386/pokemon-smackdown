@@ -1,42 +1,42 @@
-import { BurnEffect } from '../effects/burn.effect';
-import { FlinchEffect } from '../effects/flinch.effect';
-import { FreezeEffect } from '../effects/freeze.effect';
-import { ParalysisEffect } from '../effects/paralysis.effect';
-import { PoisonEffect } from '../effects/poison.effect';
-import { RngEffect } from '../effects/rng.effect';
-import { SleepEffect } from '../effects/sleep.effect';
-import { StatModifierEffect } from '../effects/stat-modifier.effect';
 import { Type } from '../type';
 import { DamageMove } from './damage.move';
 import { Move } from './move';
 import { StatusMove } from './status.move';
 import { RecoilMove } from './recoil.move';
 import { MultiStrikeMove } from './multi-strike.move';
+import {
+  BurnEffect,
+  FlinchEffect,
+  FreezeEffect,
+  ParalysisEffect,
+  PoisonEffect,
+  RngEffect,
+  SleepEffect,
+  StatModifierEffect,
+} from '../effects';
+import { DirectDamageMove } from './direct-damage.move';
 
 // TODO
 // Leech Seed
-// Sleep Powder
 // Razor Leaf
 // Worry Seed
 // Synthesis
 // Solar Beam
 // Petal Dance
 // Petal Blizzard
-// Dragon Rage
-// Fire Fang
 // Slash
-// Flamethrower
 // Fire Spin
-// Inferno
-// Flare Blitz
-// Heat Wave
 // Shadow Claw
 // Rapid Spin
 // Protect
 // Water Pulse
 // Rain Dance
 // Bug Bite
-// Twin Needle
+// Gust
+// Confusion
+// Stun Spore
+// Psybeam
+//
 
 const moves: Move[] = [
   new DamageMove('Tackle', Type.Normal, 'physical', 40, 35, 100, [], []),
@@ -141,6 +141,79 @@ const moves: Move[] = [
   new RecoilMove('Take Down', Type.Normal, 'physical', 90, 0.25, 20, 85, [], []),
   new RecoilMove('Double-Edge', Type.Normal, 'physical', 120, 1 / 3, 15, 100, [], []),
   new MultiStrikeMove('Fury Attack', Type.Normal, 'physical', 15, 20, 85, [], []),
+  new StatusMove('Sleep Powder', Type.Grass, 15, 75, [], [new SleepEffect()]),
+  new DirectDamageMove('Dragon Rage', Type.Dragon, 40, 10, 100, [], []),
+  new DamageMove(
+    'Fire Fang',
+    Type.Fire,
+    'physical',
+    65,
+    15,
+    95,
+    [],
+    [new RngEffect(10, [new BurnEffect()]), new RngEffect(10, [new FlinchEffect()])]
+  ),
+  new DamageMove(
+    'Flamethrower',
+    Type.Fire,
+    'special',
+    90,
+    15,
+    100,
+    [],
+    [new RngEffect(10, [new BurnEffect()])]
+  ),
+  new DamageMove('Inferno', Type.Fire, 'special', 100, 5, 50, [], [new BurnEffect()]),
+  new RecoilMove(
+    'Flare Blitz',
+    Type.Fire,
+    'physical',
+    120,
+    1 / 3,
+    5,
+    100,
+    [],
+    [new RngEffect(10, [new BurnEffect()])]
+  ),
+  new DamageMove(
+    'Heat Wave',
+    Type.Fire,
+    'special',
+    95,
+    10,
+    90,
+    [],
+    [new RngEffect(10, [new BurnEffect()])]
+  ),
+  new MultiStrikeMove(
+    'Twineedle',
+    Type.Bug,
+    'physical',
+    25,
+    20,
+    100,
+    [],
+    [new RngEffect(36, [new PoisonEffect()])],
+    2
+  ),
+  new DamageMove(
+    'Silver Wind',
+    Type.Bug,
+    'special',
+    60,
+    5,
+    100,
+    [
+      new RngEffect(10, [
+        new StatModifierEffect('attack', 1),
+        new StatModifierEffect('defense', 1),
+        new StatModifierEffect('specialAttack', 1),
+        new StatModifierEffect('specialDefense', 1),
+        new StatModifierEffect('speed', 1),
+      ]),
+    ],
+    []
+  ),
 ];
 
 export function getMove(name: string): Move {

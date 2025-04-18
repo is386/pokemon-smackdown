@@ -1,13 +1,13 @@
 import { randomInt } from 'crypto';
 import { Effect } from '../effects';
-import { Pokemon } from '../pokemon';
-import { calculateAccuracyEvasionModifier } from '../pokemon/stat-modifiers';
+import { calculateAccuracyEvasionModifier, Pokemon } from '../pokemon';
 import { Type, typeEffectiveness } from '../type';
-import { clamp } from '../utils/math';
 import { DamageMove } from './damage.move';
 import { MultiStrikeMove } from './multi-strike.move';
 import { RecoilMove } from './recoil.move';
+import { clamp } from '../utils';
 
+export type AttackCategory = 'physical' | 'special';
 export type AttackMove = DamageMove | RecoilMove | MultiStrikeMove;
 
 export abstract class Move {

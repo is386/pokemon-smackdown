@@ -1,4 +1,4 @@
-import { clamp } from '../utils/math';
+import { clamp } from '../utils';
 
 export type StatName = 'hp' | 'attack' | 'defense' | 'specialAttack' | 'specialDefense' | 'speed';
 

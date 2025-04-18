@@ -1,4 +1,4 @@
-import { clamp } from '../utils/math';
+import { clamp } from '../utils';
 import { StatName } from './stats';
 
 export type StatModifierName = StatName | 'accuracy' | 'evasion' | 'critical';

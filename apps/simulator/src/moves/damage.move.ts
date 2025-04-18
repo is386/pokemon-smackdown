@@ -1,20 +1,17 @@
-import { Effect } from '../effects';
+import { DamageEffect, Effect } from '../effects';
 import { Pokemon } from '../pokemon';
 import { Type } from '../type';
-import { calculateDamage } from '../utils/calculate-damage';
-import { DamageEffect } from '../effects/damage.effect';
-import { Move } from './move';
-
-export type DamageCategory = 'physical' | 'special';
+import { calculateDamage } from '../utils';
+import { AttackCategory, Move } from './move';
 
 export class DamageMove extends Move {
-  private _category: DamageCategory;
+  private _category: AttackCategory;
   private _power: number;
 
   constructor(
     name: string,
     type: Type,
-    category: DamageCategory,
+    category: AttackCategory,
     power: number,
     pp: number,
     accuracy: number,
@@ -26,7 +23,7 @@ export class DamageMove extends Move {
     this._power = power;
   }
 
-  getCategory(): DamageCategory {
+  getCategory(): AttackCategory {
     return this._category;
   }
 

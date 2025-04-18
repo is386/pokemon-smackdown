@@ -10,6 +10,7 @@ function turn(p1: Pokemon, p1Move: number, p2: Pokemon, p2Move: number): void {
   console.log();
 
   p1.useMove(p1Move, p2);
+  console.log();
   p2.useMove(p2Move, p1);
 }
 
@@ -23,13 +24,13 @@ function main(): void {
     new Stats(31, 31, 31, 31, 31, 31),
     new Stats(0, 0, 0, 0, 0, 0),
     'hardy',
-    [getMove('fury attack')]
+    [getMove('silver wind')]
   );
 
   const p2 = new Pokemon(
     'Blastoise',
     100,
-    Type.Water,
+    Type.Dragon,
     undefined,
     new Stats(79, 83, 100, 85, 105, 78),
     new Stats(31, 31, 31, 31, 31, 31),
@@ -38,6 +39,13 @@ function main(): void {
     [getMove('growl')]
   );
 
+  turn(p1, 0, p2, 0);
+  turn(p1, 0, p2, 0);
+  turn(p1, 0, p2, 0);
+  turn(p1, 0, p2, 0);
+  turn(p1, 0, p2, 0);
+  turn(p1, 0, p2, 0);
+  turn(p1, 0, p2, 0);
   turn(p1, 0, p2, 0);
   turn(p1, 0, p2, 0);
 }

@@ -1,20 +1,18 @@
-import { Effect } from '../effects';
-import { DamageEffect } from '../effects/damage.effect';
+import { DamageEffect, Effect } from '../effects';
 import { Pokemon } from '../pokemon';
 import { Type } from '../type';
-import { calculateDamage } from '../utils/calculate-damage';
-import { DamageCategory } from './damage.move';
-import { Move } from './move';
+import { calculateDamage } from '../utils';
+import { AttackCategory, Move } from './move';
 
 export class MultiStrikeMove extends Move {
-  private _category: DamageCategory;
+  private _category: AttackCategory;
   private _power: number;
   private _hits: number;
 
   constructor(
     name: string,
     type: Type,
-    category: DamageCategory,
+    category: AttackCategory,
     power: number,
     pp: number,
     accuracy: number,
@@ -28,7 +26,7 @@ export class MultiStrikeMove extends Move {
     this._hits = hits;
   }
 
-  getCategory(): DamageCategory {
+  getCategory(): AttackCategory {
     return this._category;
   }
 
