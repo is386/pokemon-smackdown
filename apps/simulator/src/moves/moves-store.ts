@@ -7,9 +7,10 @@ import { RngEffect } from '../effects/rng.effect';
 import { SleepEffect } from '../effects/sleep.effect';
 import { StatModifierEffect } from '../effects/stat-modifier.effect';
 import { Type } from '../type';
-import { DamageMove } from './damage-move';
+import { DamageMove } from './damage.move';
 import { Move } from './move';
-import { StatusMove } from './status-move';
+import { StatusMove } from './status.move';
+import { RecoilMove } from './recoil.move';
 
 // TODO
 // Leech Seed
@@ -137,6 +138,8 @@ const moves: Move[] = [
   ),
   new StatusMove('Hypnosis', Type.Psychic, 20, 70, [], [new SleepEffect()]),
   new StatusMove('Poison Powder', Type.Poison, 20, 75, [], [new PoisonEffect()]),
+  new RecoilMove('Take Down', Type.Normal, 'physical', 90, 0.25, 20, 85, [], []),
+  new RecoilMove('Double-Edge', Type.Normal, 'physical', 120, 1 / 3, 15, 100, [], []),
 ];
 
 export function getMove(name: string): Move {

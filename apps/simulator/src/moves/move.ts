@@ -2,7 +2,7 @@ import { randomInt } from 'crypto';
 import { Effect } from '../effects';
 import { Pokemon } from '../pokemon';
 import { calculateAccuracyEvasionModifier } from '../pokemon/stat-modifiers';
-import { Type } from '../type';
+import { Type, typeEffectiveness } from '../type';
 import { clamp } from '../utils/math';
 
 export abstract class Move {
@@ -75,6 +75,33 @@ export abstract class Move {
   protected _applyEffects(user: Pokemon, target: Pokemon): void {
     this._userEffects.forEach((effect) => effect.apply(user));
     this._targetEffects.forEach((effect) => effect.apply(target));
+  }
+
+  protected _hasNoEffect(target: Pokemon): boolean {
+    const primaryType = target.getPrimaryType();
+    const secondaryType = target.getSecondaryType();
+
+    const effectiveness = (type: Type) => typeEffectiveness[this._type][type] ?? 1;
+
+    const primaryEffectiveness = effectiveness(primaryType);
+    const secondaryEffectiveness = secondaryType ? effectiveness(secondaryType) : 1;
+
+    if (primaryEffectiveness === 2 || secondaryEffectiveness === 2) {
+      console.log(`It's super effective!`);
+      return false;
+    }
+
+    if (primaryEffectiveness === 0.5 || secondaryEffectiveness === 0.5) {
+      console.log(`It's not very effective...`);
+      return false;
+    }
+
+    if (primaryEffectiveness === 0 || secondaryEffectiveness === 0) {
+      console.log(`It has no effect.`);
+      return true;
+    }
+
+    return false;
   }
 
   use(user: Pokemon, target: Pokemon): boolean {

@@ -1,6 +1,6 @@
 import { Effect } from '../effects';
 import { Pokemon } from '../pokemon';
-import { Type, typeEffectiveness } from '../type';
+import { Type } from '../type';
 import { calculateDamage } from '../utils/calculate-damage';
 import { DamageEffect } from '../effects/damage.effect';
 import { Move } from './move';
@@ -8,8 +8,8 @@ import { Move } from './move';
 export type DamageCategory = 'physical' | 'special';
 
 export class DamageMove extends Move {
-  protected _category: DamageCategory;
-  protected _power: number;
+  private _category: DamageCategory;
+  private _power: number;
 
   constructor(
     name: string,
@@ -43,37 +43,9 @@ export class DamageMove extends Move {
     return true;
   }
 
-  protected _applyDamage(user: Pokemon, target: Pokemon): number {
+  private _applyDamage(user: Pokemon, target: Pokemon): void {
     const damage = calculateDamage(this, user, target);
     new DamageEffect(this, damage).apply(target);
-    return damage;
-  }
-
-  protected _hasNoEffect(target: Pokemon): boolean {
-    const primaryType = target.getPrimaryType();
-    const secondaryType = target.getSecondaryType();
-
-    const effectiveness = (type: Type) => typeEffectiveness[this._type][type] ?? 1;
-
-    const primaryEffectiveness = effectiveness(primaryType);
-    const secondaryEffectiveness = secondaryType ? effectiveness(secondaryType) : 1;
-
-    if (primaryEffectiveness === 2 || secondaryEffectiveness === 2) {
-      console.log(`It's super effective!`);
-      return false;
-    }
-
-    if (primaryEffectiveness === 0.5 || secondaryEffectiveness === 0.5) {
-      console.log(`It's not very effective...`);
-      return false;
-    }
-
-    if (primaryEffectiveness === 0 || secondaryEffectiveness === 0) {
-      console.log(`It has no effect.`);
-      return true;
-    }
-
-    return false;
   }
 
   copy(): DamageMove {

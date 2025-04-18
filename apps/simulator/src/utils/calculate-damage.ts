@@ -3,7 +3,7 @@ import { Pokemon } from '../pokemon';
 import { StatModifierName } from '../pokemon/stat-modifiers';
 import { typeEffectiveness } from '../type';
 import { randomIntFromInterval } from '.';
-import { DamageMove } from '../moves';
+import { DamageMove, RecoilMove } from '../moves';
 
 function getCritMultiplier(stage: number): number {
   let chance: number;
@@ -22,7 +22,11 @@ function getCritMultiplier(stage: number): number {
   return roll < chance ? 2 : 1;
 }
 
-export function calculateDamage(move: DamageMove, user: Pokemon, target: Pokemon): number {
+export function calculateDamage(
+  move: DamageMove | RecoilMove,
+  user: Pokemon,
+  target: Pokemon
+): number {
   const category = move.getCategory();
   const type = move.getType();
   const power = move.getPower();

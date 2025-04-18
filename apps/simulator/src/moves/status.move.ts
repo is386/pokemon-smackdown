@@ -33,7 +33,7 @@ export class StatusMove extends Move {
     return true;
   }
 
-  private _hasNoEffect(target: Pokemon): boolean {
+  protected override _hasNoEffect(target: Pokemon): boolean {
     if (!this._applyTypeEffectiveness) {
       return false;
     }
