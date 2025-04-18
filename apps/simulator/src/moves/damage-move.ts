@@ -35,12 +35,10 @@ export class DamageMove extends Move {
   }
 
   use(user: Pokemon, target: Pokemon): boolean {
-    if (!super.use(user, target)) {
+    if (!super.use(user, target) || this._hasNoEffect(target)) {
       return false;
     }
-
     this._applyDamage(user, target);
-    this._logEffectiveness(target);
     this._applyEffects(user, target);
     return true;
   }
@@ -51,25 +49,31 @@ export class DamageMove extends Move {
     return damage;
   }
 
-  protected _logEffectiveness(target: Pokemon): void {
+  protected _hasNoEffect(target: Pokemon): boolean {
     const primaryType = target.getPrimaryType();
     const secondaryType = target.getSecondaryType();
-    if (
-      typeEffectiveness[this._type][primaryType] === 2 ||
-      (secondaryType && typeEffectiveness[this._type][secondaryType] === 2)
-    ) {
+
+    const effectiveness = (type: Type) => typeEffectiveness[this._type][type] ?? 1;
+
+    const primaryEffectiveness = effectiveness(primaryType);
+    const secondaryEffectiveness = secondaryType ? effectiveness(secondaryType) : 1;
+
+    if (primaryEffectiveness === 2 || secondaryEffectiveness === 2) {
       console.log(`It's super effective!`);
-    } else if (
-      typeEffectiveness[this._type][primaryType] === 0.5 ||
-      (secondaryType && typeEffectiveness[this._type][secondaryType] === 0.5)
-    ) {
-      console.log(`It's not very effective...`);
-    } else if (
-      typeEffectiveness[this._type][primaryType] === 0 ||
-      (secondaryType && typeEffectiveness[this._type][secondaryType] === 0)
-    ) {
-      console.log(`It has no effect.`);
+      return false;
     }
+
+    if (primaryEffectiveness === 0.5 || secondaryEffectiveness === 0.5) {
+      console.log(`It's not very effective...`);
+      return false;
+    }
+
+    if (primaryEffectiveness === 0 || secondaryEffectiveness === 0) {
+      console.log(`It has no effect.`);
+      return true;
+    }
+
+    return false;
   }
 
   copy(): DamageMove {

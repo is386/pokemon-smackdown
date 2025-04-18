@@ -104,7 +104,7 @@ const moves: Move[] = [
     [],
     [new RngEffect(30, [new FlinchEffect()])]
   ),
-  new StatusMove('Thunder Wave', Type.Electric, 20, 90, [], [new ParalysisEffect()]),
+  new StatusMove('Thunder Wave', Type.Electric, 20, 90, [], [new ParalysisEffect()], true),
   new DamageMove(
     'Ember',
     Type.Fire,

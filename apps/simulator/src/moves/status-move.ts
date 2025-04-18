@@ -1,18 +1,22 @@
 import { Effect } from '../effects';
 import { Pokemon } from '../pokemon';
-import { Type } from '../type';
+import { Type, typeEffectiveness } from '../type';
 import { Move } from './move';
 
 export class StatusMove extends Move {
+  private _applyTypeEffectiveness: boolean;
+
   constructor(
     name: string,
     type: Type,
     pp: number,
     accuracy: number,
     userEffects: Effect[],
-    targetEffects: Effect[]
+    targetEffects: Effect[],
+    applyTypeEffectiveness: boolean = false
   ) {
     super(name, type, pp, accuracy, userEffects, targetEffects);
+    this._applyTypeEffectiveness = applyTypeEffectiveness;
   }
 
   use(user: Pokemon, target: Pokemon): boolean {
@@ -20,8 +24,28 @@ export class StatusMove extends Move {
       return false;
     }
 
+    if (this._hasNoEffect(target)) {
+      console.log(`It has no effect.`);
+      return false;
+    }
+
     this._applyEffects(user, target);
     return true;
+  }
+
+  private _hasNoEffect(target: Pokemon): boolean {
+    if (!this._applyTypeEffectiveness) {
+      return false;
+    }
+
+    const primaryType = target.getPrimaryType();
+    const secondaryType = target.getSecondaryType();
+
+    const isPrimaryTypeIneffective = typeEffectiveness[this._type][primaryType] === 0;
+    const isSecondaryTypeIneffective =
+      secondaryType !== undefined && typeEffectiveness[this._type][secondaryType] === 0;
+
+    return isPrimaryTypeIneffective || isSecondaryTypeIneffective;
   }
 
   copy(): StatusMove {
@@ -31,7 +55,8 @@ export class StatusMove extends Move {
       this._maxPp,
       this._accuracy,
       this._userEffects,
-      this._targetEffects
+      this._targetEffects,
+      this._applyTypeEffectiveness
     );
   }
 }

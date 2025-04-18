@@ -25,6 +25,6 @@ export class PoisonCondition extends Condition {
   }
 
   toString(): string {
-    return 'psn';
+    return this._badly ? 'tox' : 'psn';
   }
 }
