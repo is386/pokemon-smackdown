@@ -24,13 +24,13 @@ function main(): void {
     new Stats(31, 31, 31, 31, 31, 31),
     new Stats(0, 0, 0, 0, 0, 0),
     'hardy',
-    [getMove('confusion'), getMove('bite'), getMove('sleep powder'), getMove('ember')]
+    [getMove('withdraw')]
   );
 
   const p2 = new Pokemon(
     'Blastoise',
     100,
-    Type.Dragon,
+    Type.Ghost,
     undefined,
     new Stats(79, 83, 100, 85, 105, 78),
     new Stats(31, 31, 31, 31, 31, 31),
@@ -40,10 +40,10 @@ function main(): void {
   );
 
   turn(p1, 0, p2, 0);
-  turn(p1, 1, p2, 0);
-  turn(p1, 2, p2, 0);
-  turn(p1, 3, p2, 0);
-  turn(p1, 3, p2, 0);
+  turn(p1, 0, p2, 0);
+  turn(p1, 0, p2, 0);
+  turn(p1, 0, p2, 0);
+  turn(p1, 0, p2, 0);
 }
 
 main();

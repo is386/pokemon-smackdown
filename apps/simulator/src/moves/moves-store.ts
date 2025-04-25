@@ -120,7 +120,7 @@ const moves: Move[] = [
   new RecoilMove('Take Down', Type.Normal, 'physical', 90, 0.25, 20, 85, [], []),
   new RecoilMove('Double-Edge', Type.Normal, 'physical', 120, 1 / 3, 15, 100, [], []),
   new MultiStrikeMove('Fury Attack', Type.Normal, 'physical', 15, 20, 85, [], []),
-  new StatusMove('Sleep Powder', Type.Grass, 15, 75, [], [new ApplyParalysisEffect()]),
+  new StatusMove('Sleep Powder', Type.Grass, 15, 75, [], [new ApplySleepEffect()]),
   new DirectDamageMove('Dragon Rage', Type.Dragon, 40, 10, 100, [], []),
   new DamageMove(
     'Fire Fang',

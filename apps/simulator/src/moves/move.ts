@@ -110,6 +110,7 @@ export abstract class Move {
   }
 
   use(user: Pokemon, target: Pokemon): boolean {
+    // TODO: This should be moved to the child classes
     console.log(`${user.getName()} used ${this._name} on ${target.getName()}`);
 
     if (this._pp === 0) {
