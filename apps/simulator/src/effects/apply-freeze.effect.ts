@@ -4,7 +4,7 @@ import { Status } from '../status';
 import { Type } from '../type';
 import { Effect } from './effect';
 
-export class FreezeEffect extends Effect {
+export class ApplyFreezeEffect extends Effect {
   apply(pokemon: Pokemon) {
     if (
       pokemon.getStatus() ||

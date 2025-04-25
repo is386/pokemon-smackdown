@@ -5,38 +5,17 @@ import { StatusMove } from './status.move';
 import { RecoilMove } from './recoil.move';
 import { MultiStrikeMove } from './multi-strike.move';
 import {
-  BurnEffect,
-  FlinchEffect,
-  FreezeEffect,
-  ParalysisEffect,
-  PoisonEffect,
+  ApplyBurnEffect,
+  ApplyFlinchEffect,
+  ApplyFreezeEffect,
+  ApplyParalysisEffect,
+  ApplyPoisonEffect,
   RngEffect,
-  SleepEffect,
+  ApplySleepEffect,
   StatModifierEffect,
+  ApplyConfusionEffect,
 } from '../effects';
 import { DirectDamageMove } from './direct-damage.move';
-
-// TODO
-// Leech Seed
-// Razor Leaf
-// Worry Seed
-// Synthesis
-// Solar Beam
-// Petal Dance
-// Petal Blizzard
-// Slash
-// Fire Spin
-// Shadow Claw
-// Rapid Spin
-// Protect
-// Water Pulse
-// Rain Dance
-// Bug Bite
-// Gust
-// Confusion
-// Stun Spore
-// Psybeam
-//
 
 const moves: Move[] = [
   new DamageMove('Tackle', Type.Normal, 'physical', 40, 35, 100, [], []),
@@ -93,7 +72,7 @@ const moves: Move[] = [
     25,
     100,
     [],
-    [new RngEffect(30, [new FlinchEffect()])]
+    [new RngEffect(30, [new ApplyFlinchEffect()])]
   ),
   new DamageMove(
     'Air Slash',
@@ -103,9 +82,9 @@ const moves: Move[] = [
     15,
     95,
     [],
-    [new RngEffect(30, [new FlinchEffect()])]
+    [new RngEffect(30, [new ApplyFlinchEffect()])]
   ),
-  new StatusMove('Thunder Wave', Type.Electric, 20, 90, [], [new ParalysisEffect()], true),
+  new StatusMove('Thunder Wave', Type.Electric, 20, 90, [], [new ApplyParalysisEffect()], true),
   new DamageMove(
     'Ember',
     Type.Fire,
@@ -114,7 +93,7 @@ const moves: Move[] = [
     25,
     100,
     [],
-    [new RngEffect(10, [new BurnEffect()])]
+    [new RngEffect(10, [new ApplyBurnEffect()])]
   ),
   new DamageMove(
     'Ice Beam',
@@ -124,7 +103,7 @@ const moves: Move[] = [
     10,
     100,
     [],
-    [new RngEffect(10, [new FreezeEffect()])]
+    [new RngEffect(10, [new ApplyFreezeEffect()])]
   ),
   new DamageMove(
     'Scald',
@@ -134,14 +113,14 @@ const moves: Move[] = [
     15,
     100,
     [],
-    [new RngEffect(30, [new BurnEffect()])]
+    [new RngEffect(30, [new ApplyBurnEffect()])]
   ),
-  new StatusMove('Hypnosis', Type.Psychic, 20, 70, [], [new SleepEffect()]),
-  new StatusMove('Poison Powder', Type.Poison, 20, 75, [], [new PoisonEffect()]),
+  new StatusMove('Hypnosis', Type.Psychic, 20, 70, [], [new ApplySleepEffect()]),
+  new StatusMove('Poison Powder', Type.Poison, 20, 75, [], [new ApplyPoisonEffect()]),
   new RecoilMove('Take Down', Type.Normal, 'physical', 90, 0.25, 20, 85, [], []),
   new RecoilMove('Double-Edge', Type.Normal, 'physical', 120, 1 / 3, 15, 100, [], []),
   new MultiStrikeMove('Fury Attack', Type.Normal, 'physical', 15, 20, 85, [], []),
-  new StatusMove('Sleep Powder', Type.Grass, 15, 75, [], [new SleepEffect()]),
+  new StatusMove('Sleep Powder', Type.Grass, 15, 75, [], [new ApplyParalysisEffect()]),
   new DirectDamageMove('Dragon Rage', Type.Dragon, 40, 10, 100, [], []),
   new DamageMove(
     'Fire Fang',
@@ -151,7 +130,7 @@ const moves: Move[] = [
     15,
     95,
     [],
-    [new RngEffect(10, [new BurnEffect()]), new RngEffect(10, [new FlinchEffect()])]
+    [new RngEffect(10, [new ApplyBurnEffect()]), new RngEffect(10, [new ApplyFlinchEffect()])]
   ),
   new DamageMove(
     'Flamethrower',
@@ -161,9 +140,9 @@ const moves: Move[] = [
     15,
     100,
     [],
-    [new RngEffect(10, [new BurnEffect()])]
+    [new RngEffect(10, [new ApplyBurnEffect()])]
   ),
-  new DamageMove('Inferno', Type.Fire, 'special', 100, 5, 50, [], [new BurnEffect()]),
+  new DamageMove('Inferno', Type.Fire, 'special', 100, 5, 50, [], [new ApplyBurnEffect()]),
   new RecoilMove(
     'Flare Blitz',
     Type.Fire,
@@ -173,7 +152,7 @@ const moves: Move[] = [
     5,
     100,
     [],
-    [new RngEffect(10, [new BurnEffect()])]
+    [new RngEffect(10, [new ApplyBurnEffect()])]
   ),
   new DamageMove(
     'Heat Wave',
@@ -183,7 +162,7 @@ const moves: Move[] = [
     10,
     90,
     [],
-    [new RngEffect(10, [new BurnEffect()])]
+    [new RngEffect(10, [new ApplyBurnEffect()])]
   ),
   new MultiStrikeMove(
     'Twineedle',
@@ -193,7 +172,7 @@ const moves: Move[] = [
     20,
     100,
     [],
-    [new RngEffect(36, [new PoisonEffect()])],
+    [new RngEffect(36, [new ApplyPoisonEffect()])],
     2
   ),
   new DamageMove(
@@ -214,7 +193,38 @@ const moves: Move[] = [
     ],
     []
   ),
+  new DamageMove(
+    'Confusion',
+    Type.Psychic,
+    'special',
+    50,
+    25,
+    100,
+    [],
+    [new RngEffect(10, [new ApplyConfusionEffect()])]
+  ),
 ];
+
+// TODO
+// Leech Seed
+// Razor Leaf
+// Worry Seed
+// Synthesis
+// Solar Beam
+// Petal Dance
+// Petal Blizzard
+// Slash
+// Fire Spin
+// Shadow Claw
+// Rapid Spin
+// Protect
+// Water Pulse
+// Rain Dance
+// Bug Bite
+// Gust
+// Confusion
+// Stun Spore
+// Psybeam
 
 export function getMove(name: string): Move {
   const move = moves.find((m) => m.getName().toLowerCase() === name.toLowerCase());

@@ -3,7 +3,7 @@ import { ParalysisCondition } from '../status';
 import { Status } from '../status';
 import { Type } from '../type';
 
-export class ParalysisEffect {
+export class ApplyParalysisEffect {
   apply(pokemon: Pokemon) {
     if (
       pokemon.getStatus() ||

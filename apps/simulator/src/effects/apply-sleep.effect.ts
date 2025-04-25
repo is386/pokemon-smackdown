@@ -4,7 +4,7 @@ import { Effect } from './effect';
 import { Pokemon } from '../pokemon';
 import { randomIntFromInterval } from '../utils';
 
-export class SleepEffect extends Effect {
+export class ApplySleepEffect extends Effect {
   private _turns: number;
 
   constructor(turns: number = randomIntFromInterval(1, 3)) {

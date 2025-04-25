@@ -5,6 +5,7 @@ import { StatModifiers, StatModifierName } from './stat-modifiers';
 import { Nature, natureMap, NatureStats } from './nature';
 import { Status } from '../status';
 import { Effect } from '../effects';
+import { VolatileStatus } from '../volatile-status';
 
 export class Pokemon {
   private _name: string;
@@ -23,8 +24,8 @@ export class Pokemon {
   private _selectedMove: Move | undefined;
 
   private _endOfTurnEffects: Effect[] = [];
-  private _afterStatusCheckEffects: Effect[] = [];
   private _status: Status | undefined;
+  private _volatileStatus: VolatileStatus = new VolatileStatus();
   private _skipTurn = false;
 
   constructor(
@@ -89,16 +90,16 @@ export class Pokemon {
     this._status = value;
   }
 
+  getVolatileStatus(): VolatileStatus {
+    return this._volatileStatus;
+  }
+
   isSkipTurn(): boolean {
     return this._skipTurn;
   }
 
   setSkipTurn(value: boolean): void {
     this._skipTurn = value;
-  }
-
-  getAfterStatusCheckEffects(): Effect[] {
-    return this._afterStatusCheckEffects;
   }
 
   getEndOfTurnEffects(): Effect[] {
@@ -114,7 +115,7 @@ export class Pokemon {
 
     this._applyStatusConditionEffects();
 
-    this._applyAfterStatusCheckEffects();
+    this._applyVolatileStatusEffects();
 
     if (!this._skipTurn) {
       this._selectedMove.use(this, target);
@@ -177,11 +178,8 @@ export class Pokemon {
     }
   }
 
-  private _applyAfterStatusCheckEffects(): void {
-    this._afterStatusCheckEffects.forEach((effect) => {
-      effect.apply(this);
-    });
-    this._afterStatusCheckEffects = [];
+  private _applyVolatileStatusEffects(): void {
+    this._volatileStatus.apply(this);
   }
 
   private _applyEndOfTurnEffects(): void {

@@ -4,7 +4,7 @@ import { Status } from '../status';
 import { Type } from '../type';
 import { Effect } from './effect';
 
-export class BurnEffect extends Effect {
+export class ApplyBurnEffect extends Effect {
   apply(pokemon: Pokemon) {
     if (
       pokemon.getStatus() ||

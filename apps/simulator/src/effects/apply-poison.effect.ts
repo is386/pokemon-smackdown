@@ -4,7 +4,7 @@ import { Status } from '../status';
 import { Type } from '../type';
 import { Effect } from './effect';
 
-export class PoisonEffect extends Effect {
+export class ApplyPoisonEffect extends Effect {
   private _badly: boolean;
 
   constructor(badly: boolean = false) {
