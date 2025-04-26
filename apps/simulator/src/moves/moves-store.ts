@@ -72,7 +72,7 @@ const moves: Move[] = [
     25,
     100,
     [],
-    [new RngEffect(30, [new ApplyFlinchEffect()])]
+    [new RngEffect(100, [new ApplyFlinchEffect()])]
   ),
   new DamageMove(
     'Air Slash',

@@ -10,7 +10,7 @@ export class FlinchCondition extends Condition {
   apply(pokemon: Pokemon): void {
     this._isActive = false;
 
-    if (pokemon.isSkipTurn()) {
+    if (pokemon.isSkipTurn() || pokemon.isFirstToAttack()) {
       return;
     }
 

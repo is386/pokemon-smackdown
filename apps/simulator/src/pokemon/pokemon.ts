@@ -26,6 +26,8 @@ export class Pokemon {
   private _endOfTurnEffects: Effect[] = [];
   private _status: Status | undefined;
   private _volatileStatus: VolatileStatus = new VolatileStatus();
+
+  private _isFirstToAttack = false;
   private _skipTurn = false;
 
   constructor(
@@ -110,8 +112,23 @@ export class Pokemon {
     return this._selectedMove;
   }
 
-  useMove(moveIndex: number, target: Pokemon): void {
+  selectMove(moveIndex: number): Move {
     this._selectedMove = this._moves[moveIndex];
+    return this._selectedMove;
+  }
+
+  isFirstToAttack(): boolean {
+    return this._isFirstToAttack;
+  }
+
+  setIsFirstToAttack(value: boolean): void {
+    this._isFirstToAttack = value;
+  }
+
+  useMove(target: Pokemon): void {
+    if (!this._selectedMove) {
+      throw new Error(`${this._name} did not select a move`);
+    }
 
     this._applyStatusConditionEffects();
 
