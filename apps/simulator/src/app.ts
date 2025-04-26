@@ -13,7 +13,7 @@ function main(): void {
     new Stats(31, 31, 31, 31, 31, 31),
     new Stats(0, 0, 0, 0, 0, 0),
     'hardy',
-    [getMove('tackle')]
+    [getMove('ice fang')]
   );
 
   const p2 = new Pokemon(
@@ -21,7 +21,7 @@ function main(): void {
     100,
     Type.Ghost,
     undefined,
-    new Stats(79, 83, 100, 85, 105, 300),
+    new Stats(79, 83, 100, 85, 105, 50),
     new Stats(31, 31, 31, 31, 31, 31),
     new Stats(0, 0, 0, 0, 0, 0),
     'hardy',

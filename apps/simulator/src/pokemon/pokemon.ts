@@ -155,10 +155,8 @@ export class Pokemon {
       finalStat += this._level + 10;
     } else {
       finalStat = (finalStat + 5) * this._natureStats[stat];
-      if (stat === 'speed' && this._status?.isParalyzed) {
-        console.log(finalStat);
+      if (stat === 'speed' && this._status?.isParalyzed()) {
         finalStat /= 2;
-        console.log(finalStat);
       }
     }
     return Math.floor(finalStat);
