@@ -19,7 +19,7 @@ function main(): void {
   const p2 = new Pokemon(
     'Blastoise',
     100,
-    Type.Dragon,
+    Type.Ghost,
     undefined,
     new Stats(79, 83, 100, 85, 105, 300),
     new Stats(31, 31, 31, 31, 31, 31),
