@@ -35,10 +35,15 @@ export class Turn {
   }
 
   private _isFirstToAttack(user: Pokemon, target: Pokemon): boolean {
-    if (user.getStatWithModifier('speed') !== target.getStatWithModifier('speed')) {
-      return user.getStatWithModifier('speed') > target.getStatWithModifier('speed');
+    const userPriority = user.getSelectedMove()?.getPriority() ?? 0;
+    const targetPriority = target.getSelectedMove()?.getPriority() ?? 0;
+
+    if (userPriority !== targetPriority) {
+      return userPriority > targetPriority;
     }
 
-    return randomIntFromInterval(1, 100) < 50;
+    const userSpeed = user.getStatWithModifier('speed');
+    const targetSpeed = target.getStatWithModifier('speed');
+    return userSpeed !== targetSpeed ? userSpeed > targetSpeed : randomIntFromInterval(1, 100) < 50;
   }
 }

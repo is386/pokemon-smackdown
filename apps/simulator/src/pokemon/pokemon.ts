@@ -112,9 +112,8 @@ export class Pokemon {
     return this._selectedMove;
   }
 
-  selectMove(moveIndex: number): Move {
+  selectMove(moveIndex: number): void {
     this._selectedMove = this._moves[moveIndex];
-    return this._selectedMove;
   }
 
   isFirstToAttack(): boolean {

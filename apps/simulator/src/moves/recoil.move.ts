@@ -18,9 +18,10 @@ export class RecoilMove extends Move {
     pp: number,
     accuracy: number,
     userEffects: Effect[],
-    targetEffects: Effect[]
+    targetEffects: Effect[],
+    priority: number = 0
   ) {
-    super(name, type, pp, accuracy, userEffects, targetEffects);
+    super(name, type, pp, accuracy, userEffects, targetEffects, priority);
     this._category = category;
     this._power = power;
     this._recoilRatio = recoilRatio;
@@ -63,7 +64,8 @@ export class RecoilMove extends Move {
       this._maxPp,
       this._accuracy,
       this._userEffects,
-      this._targetEffects
+      this._targetEffects,
+      this._priority
     );
   }
 }

@@ -13,9 +13,10 @@ export class StatusMove extends Move {
     accuracy: number,
     userEffects: Effect[],
     targetEffects: Effect[],
-    applyTypeEffectiveness: boolean = false
+    applyTypeEffectiveness: boolean = false,
+    priority: number = 0
   ) {
-    super(name, type, pp, accuracy, userEffects, targetEffects);
+    super(name, type, pp, accuracy, userEffects, targetEffects, priority);
     this._applyTypeEffectiveness = applyTypeEffectiveness;
   }
 
@@ -56,7 +57,8 @@ export class StatusMove extends Move {
       this._accuracy,
       this._userEffects,
       this._targetEffects,
-      this._applyTypeEffectiveness
+      this._applyTypeEffectiveness,
+      this._priority
     );
   }
 }

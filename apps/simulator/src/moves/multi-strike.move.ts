@@ -18,9 +18,10 @@ export class MultiStrikeMove extends Move {
     accuracy: number,
     userEffects: Effect[],
     targetEffects: Effect[],
-    hits: number = 0
+    hits: number = 0, // 0 means random between 2 and 5
+    priority: number = 0
   ) {
-    super(name, type, pp, accuracy, userEffects, targetEffects);
+    super(name, type, pp, accuracy, userEffects, targetEffects, priority);
     this._category = category;
     this._power = power;
     this._hits = hits;
@@ -78,7 +79,8 @@ export class MultiStrikeMove extends Move {
       this._accuracy,
       this._userEffects,
       this._targetEffects,
-      this._hits
+      this._hits,
+      this._priority
     );
   }
 }

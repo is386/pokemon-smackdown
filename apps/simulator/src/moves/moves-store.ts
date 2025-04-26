@@ -72,7 +72,7 @@ const moves: Move[] = [
     25,
     100,
     [],
-    [new RngEffect(100, [new ApplyFlinchEffect()])]
+    [new RngEffect(30, [new ApplyFlinchEffect()])]
   ),
   new DamageMove(
     'Air Slash',
@@ -203,6 +203,7 @@ const moves: Move[] = [
     [],
     [new RngEffect(10, [new ApplyConfusionEffect()])]
   ),
+  new DamageMove('Quick Attack', Type.Normal, 'physical', 40, 30, 100, [], [], 1),
 ];
 
 // TODO

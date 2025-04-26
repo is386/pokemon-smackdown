@@ -18,6 +18,7 @@ export abstract class Move {
   protected _accuracy: number;
   protected _userEffects: Effect[];
   protected _targetEffects: Effect[];
+  protected _priority: number;
 
   constructor(
     name: string,
@@ -25,7 +26,8 @@ export abstract class Move {
     pp: number,
     accuracy: number,
     userEffects: Effect[],
-    targetEffects: Effect[]
+    targetEffects: Effect[],
+    priority: number = 0
   ) {
     this._name = name;
     this._type = type;
@@ -34,6 +36,7 @@ export abstract class Move {
     this._accuracy = accuracy;
     this._userEffects = userEffects;
     this._targetEffects = targetEffects;
+    this._priority = priority;
   }
 
   getName(): string {
@@ -66,6 +69,10 @@ export abstract class Move {
 
   getTargetEffects(): Effect[] {
     return this._targetEffects;
+  }
+
+  getPriority(): number {
+    return this._priority;
   }
 
   protected _calculateAccuracy(user: Pokemon, target: Pokemon): number {

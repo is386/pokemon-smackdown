@@ -13,7 +13,7 @@ function main(): void {
     new Stats(31, 31, 31, 31, 31, 31),
     new Stats(0, 0, 0, 0, 0, 0),
     'hardy',
-    [getMove('bite')]
+    [getMove('tackle')]
   );
 
   const p2 = new Pokemon(
